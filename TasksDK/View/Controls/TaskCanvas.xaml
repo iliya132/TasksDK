@@ -9,15 +9,17 @@
              d:DesignHeight="450" d:DesignWidth="800"
              
             >
-    <Grid Name="mainGrid" HorizontalAlignment="Center">
-        <Grid.Effect>
+    <Grid Name="mainGrid" HorizontalAlignment="Center" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=ActualWidth}">
+        <!--<Grid.Effect>
             <DropShadowEffect/>
-        </Grid.Effect>
+        </Grid.Effect>-->
 
-        <ScrollViewer Height="{Binding ElementName=mainGrid, Path=ActualHeight}">
-            <WrapPanel Name="MainStackPanel">
+        <ScrollViewer Height="{Binding ElementName=mainGrid, Path=ActualHeight}"
+                      Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Path=ActualWidth}"
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel Name="MainStackPanel">
 
-            </WrapPanel>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </UserControl>

@@ -83,11 +83,9 @@ namespace TasksDK.View.Controls
             {
                 TaskControl taskControl = new TaskControl(task);
                 taskControl.Margin = new Thickness(10);
+                taskControl.SetBinding(WidthProperty, "ActualWidth");
                 MainStackPanel.Children.Add(taskControl);
             }
         }
-
-        
-
     }
 }

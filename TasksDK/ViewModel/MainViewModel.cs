@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -29,6 +30,8 @@ namespace TasksDK.ViewModel
 
         #region Commands
         public RelayCommand AddNewTaskCommand { get; set; } 
+        public RelayCommand<EmployeeTask> ViewTaskCommand { get; set; }
+        public RelayCommand<EmployeeTask> SelectParentCommand { get; set; }
         #endregion
 
         public MainViewModel(IEmployeeProvider employeeProvider, ITaskProvider taskProvider)
@@ -45,9 +48,10 @@ namespace TasksDK.ViewModel
             AddTask addTaskWindow = new AddTask();
             if (addTaskWindow.ShowDialog() == true)
             {
-                _tasks.AddTask(newTask);
-                CurrentTasks.Add(NewTask);
+                _tasks.AddTask(newTask.AsCopy());
+                CurrentTasks.Add(NewTask.AsCopy());
             }
+            newTask = new EmployeeTask();
         }
 
         private void InitializeData()
@@ -58,6 +62,33 @@ namespace TasksDK.ViewModel
         private void InitializeCommands()
         {
             AddNewTaskCommand = new RelayCommand(AddNewTask);
+            ViewTaskCommand = new RelayCommand<EmployeeTask>(ViewTask);
+            SelectParentCommand = new RelayCommand<EmployeeTask>(SelectParent);
+        }
+
+        private void SelectParent(EmployeeTask task)
+        {
+            if (task != null)
+            {
+                CurrentTasks = new ObservableCollection<EmployeeTask>(task.ChildTasks);
+            }
+            else
+            {
+                Console.WriteLine("Task  was null");
+            }
+            
+        }
+
+        private void ViewTask(EmployeeTask task)
+        {
+            EmployeeTask tempTask = task.AsCopy();
+            newTask = task;
+            AddTask addTaskWindow = new AddTask();
+            if (addTaskWindow.ShowDialog() == false)
+            {
+                task.CopyFields(tempTask);
+            }
+            newTask = new EmployeeTask();
         }
     }
 }

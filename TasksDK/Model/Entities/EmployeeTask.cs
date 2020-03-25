@@ -12,6 +12,8 @@ namespace TasksDK.Model.Entities
             Assignee = assignee;
             Reporter = reporter;
             ChildTasks = childTasks;
+            CreationDate = DateTime.Now;
+            DueDate = DateTime.Now;
         }
         public string Name { get; set; }
         public EmployeeTask ParentTask { get; set; }
@@ -31,6 +33,49 @@ namespace TasksDK.Model.Entities
         public string AwaitedResult { get; set; }
         public string Meter { get; set; }
 
+        public EmployeeTask AsCopy()
+        {
+            return new EmployeeTask
+            {
+                Name = this.Name,
+                Assignee = this.Assignee,
+                AwaitedResult = this.AwaitedResult,
+                ChildTasks = this.ChildTasks,
+                Comment = this.Comment,
+                CreationDate = this.CreationDate,
+                DueDate = this.DueDate,
+                EmployeeComment = this.EmployeeComment,
+                EmployeeDonePercent = this.EmployeeDonePercent,
+                Meter = this.Meter,
+                Owner = this.Owner,
+                ParentTask = this.ParentTask,
+                ProcessIds = this.ProcessIds,
+                Reporter = this.Reporter,
+                SupervisorComment = this.SupervisorComment,
+                SupervisorDonePercent = this.SupervisorDonePercent,
+                Weight = this.Weight
+            };
+        }
+        public void CopyFields(EmployeeTask task)
+        {
+            Name = task.Name;
+            Assignee = task.Assignee;
+            AwaitedResult = task.AwaitedResult;
+            ChildTasks = task.ChildTasks;
+            Comment = task.Comment;
+            CreationDate = task.CreationDate;
+            DueDate = task.DueDate;
+            EmployeeComment = task.EmployeeComment;
+            EmployeeDonePercent = task.EmployeeDonePercent;
+            Meter = task.Meter;
+            Owner = task.Owner;
+            ParentTask = task.ParentTask;
+            ProcessIds = task.ProcessIds;
+            Reporter = task.Reporter;
+            SupervisorComment = task.SupervisorComment;
+            SupervisorDonePercent = task.SupervisorDonePercent;
+            Weight = task.Weight;
+        }
 
     }
 }

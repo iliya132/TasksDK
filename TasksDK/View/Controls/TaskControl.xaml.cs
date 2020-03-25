@@ -21,34 +21,16 @@ namespace TasksDK.View.Controls
     /// </summary>
     public partial class TaskControl : UserControl
     {
-        EmployeeTask _task;
+        private EmployeeTask _task = new EmployeeTask();
+        public EmployeeTask Task { get=> _task; set=> _task=value; }
         public TaskControl(EmployeeTask task)
         {
-            _task = task;
+            Task = task;
             InitializeComponent();
-            NameTextBlock.Text = _task.Name;
-            NameTextBlock.Text = $"{NameTextBlock.Text} ({_task.SupervisorDonePercent}%)";
-            CommentTextBlock.Text = _task.Comment;
-        }
-
-        private void TextBlock_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                CustomizeTextBlock_ContextMenu.Visibility = Visibility.Visible;
-                CustomizeTextBlock_ContextMenu.IsOpen = true;
-            }
-            else
-            {
-                CustomizeTextBlock_ContextMenu.Visibility = Visibility.Collapsed;
-                CustomizeTextBlock_ContextMenu.IsOpen = false;
-            }
-
-        }
-
-        private void CustomizeTextBlock_ContextMenu_Closed(object sender, RoutedEventArgs e)
-        {
-            CustomizeTextBlock_ContextMenu.Visibility = Visibility.Collapsed;
+            NameTextBlock.Text = Task.Name;
+            CurrentProgressBar.Value = Task.SupervisorDonePercent;
+            NameTextBlock.Text = NameTextBlock.Text;
+            ChildCountTextBlock.Text = $"{Task.ChildTasks.Count}";
         }
     }
 }

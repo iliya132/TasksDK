@@ -7,7 +7,8 @@
         xmlns:controls="clr-namespace:TasksDK.View.Controls"
         mc:Ignorable="d"
         Title="MainWindow" MinHeight="800" MinWidth="850"
-        Background="Gray" ResizeMode="CanResizeWithGrip" WindowState="Maximized"
+        Background="#FFF7F7F7" ResizeMode="CanResizeWithGrip"
+        Name="CurrentWindow"
         >
     <Grid DataContext="{Binding Main, Source={StaticResource Locator}}">
         <Grid.RowDefinitions>
@@ -20,12 +21,14 @@
                 <TextBlock Text="+" FontSize="36" TextAlignment="Center" FontWeight="Black" Foreground="Green"/>
             </Button>
         </StackPanel>
-        
+
         <controls:TaskCanvas x:Name="tasksCanvas"
+                             
             ItemsSource ="{Binding Main.CurrentTasks, Source={StaticResource Locator}, Mode=OneWay}"
             Grid.Row="1"
             Margin="50,0,50,0">
-            
+
+
         </controls:TaskCanvas>
         <Border BorderBrush="Black"
                 BorderThickness="1"/>

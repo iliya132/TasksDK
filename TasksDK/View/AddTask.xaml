@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TasksDK.View"
         mc:Ignorable="d"
-        Title="AddTask" Height="350" Width="600"
+        Title="AddTask" MinHeight="600" MinWidth="900" Width="900" Height="600"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -19,48 +19,48 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Grid.Column="0" Margin="10,0,10,0">
-            <TextBlock Text="Название"/>
+        <!--Название-Результат-Описание-->
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="10,0,10,0" Grid.RowSpan="4">
+            <TextBlock Text="Название" Margin="0,10,0,0"/>
             <TextBox Name ="NameTextBox" FontSize="16" Text="{Binding NewTask.Name}"/>
-        </StackPanel>
 
-            <StackPanel Grid.Row="0" Grid.Column="2" Margin="10,0,10,0">
-                <TextBlock Text="Дата создания"/>
-                <DatePicker Name="CreationCalendar" FontSize="16" SelectedDate="{Binding NewTask.CreationDate}"/>
-            </StackPanel>
-
-        <StackPanel Grid.Row="1" Grid.Column="2" Margin="10,0,10,0">
-            <TextBlock Text="Срок"/>
-            <DatePicker Name="DueCalendar" FontSize="16" SelectedDate="{Binding NewTask.DueDate}"/>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="0" Margin="10,0,10,0">
-            <TextBlock Text="Ожидаемый результат"/>
+            <TextBlock Text="Ожидаемый результат" Margin="0,20,0,0"/>
             <TextBox Name ="AwaitedResultTextBox" TextWrapping="Wrap" FontSize="16"
                      Text="{Binding NewTask.AwaitedResult}"/>
+
+            <TextBlock Text="Комментарий" Margin="0,20,0,0"/>
+            <TextBox Name ="DescriptionBox" TextWrapping="WrapWithOverflow" MinHeight="150" FontSize="16"
+                     Text="{Binding NewTask.Comment}"/>
         </StackPanel>
-        <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,0,10,0">
+
+        <!--Даты-->
+        <StackPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" Margin="10,0,10,0">
+            <TextBlock Text="Дата создания"/>
+            <DatePicker Name="CreationCalendar" FontSize="16" SelectedDate="{Binding NewTask.CreationDate}"/>
+                
+            <TextBlock Text="Срок" Margin="0,10,0,0"/>
+            <DatePicker Name="DueCalendar" FontSize="16" SelectedDate="{Binding NewTask.DueDate}"/>
+
+            <TextBlock Text="Процент выполнения" Margin="0,10,0,0"/>
+            <TextBox Name="DonePercentField" FontSize="16" Text="{Binding NewTask.SupervisorDonePercent}"/>
+        </StackPanel>
+
+        <!--Инициатор-Ответственный-Измеритель-->
+        <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Margin="10,0,10,0">
             <TextBlock Text="Инициатор"/>
-            <TextBox Name ="Reporter" FontSize="16"
-                     Text="{Binding NewTask.Reporter.FIO}"/>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="1" Margin="10,0,10,0">
-            <TextBlock Text="Ответственный"/>
-            <TextBox Name ="Assignee" FontSize="16"
-                     Text="{Binding NewTask.Assignee.FIO}"/>
-        </StackPanel>
-        <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,0,10,0">
-            <TextBlock Text="Измеритель"/>
+            <TextBox Name ="Reporter" FontSize="16" Text="{Binding NewTask.Reporter.FIO}"/>
+
+            <TextBlock Text="Ответственный" Margin="0,10,0,0"/>
+            <TextBox Name ="Assignee" FontSize="16" Text="{Binding NewTask.Assignee.FIO}"/>
+
+            <TextBlock Text="Измеритель" Margin="0,10,0,0"/>
             <ComboBox Name="MeterBox" SelectedItem="{Binding NewTask.Meter}">
                 <ComboBoxItem Content="Количественный"/>
                 <ComboBoxItem Content="Временной"/>
                 <ComboBoxItem Content="Ручной режим"/>
             </ComboBox>
         </StackPanel>
-        <StackPanel Grid.Row="2" Grid.Column="0" Grid.RowSpan="2" Margin="10,0,10,0">
-            <TextBlock Text="Комментарий"/>
-            <TextBox Name ="DescriptionBox" TextWrapping="WrapWithOverflow" MinHeight="150" FontSize="16"
-                     Text="{Binding NewTask.Comment}"/>
-        </StackPanel>
+
         <StackPanel Orientation="Horizontal"
                     Grid.Row="3"
                     Grid.Column="1"
