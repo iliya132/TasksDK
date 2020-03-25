@@ -21,33 +21,36 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="10,0,10,0">
             <TextBlock Text="Название"/>
-            <TextBox Name ="NameTextBox" FontSize="16"/>
+            <TextBox Name ="NameTextBox" FontSize="16" Text="{Binding NewTask.Name}"/>
         </StackPanel>
 
             <StackPanel Grid.Row="0" Grid.Column="2" Margin="10,0,10,0">
                 <TextBlock Text="Дата создания"/>
-                <DatePicker Name="CreationCalendar" FontSize="16"/>
+                <DatePicker Name="CreationCalendar" FontSize="16" SelectedDate="{Binding NewTask.CreationDate}"/>
             </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="2" Margin="10,0,10,0">
             <TextBlock Text="Срок"/>
-            <DatePicker Name="DueCalendar" FontSize="16"/>
+            <DatePicker Name="DueCalendar" FontSize="16" SelectedDate="{Binding NewTask.DueDate}"/>
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="0" Margin="10,0,10,0">
             <TextBlock Text="Ожидаемый результат"/>
-            <TextBox Name ="AwaitedResultTextBox" TextWrapping="Wrap" FontSize="16"/>
+            <TextBox Name ="AwaitedResultTextBox" TextWrapping="Wrap" FontSize="16"
+                     Text="{Binding NewTask.AwaitedResult}"/>
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,0,10,0">
             <TextBlock Text="Инициатор"/>
-            <TextBox Name ="Reporter" FontSize="16"/>
+            <TextBox Name ="Reporter" FontSize="16"
+                     Text="{Binding NewTask.Reporter.FIO}"/>
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1" Margin="10,0,10,0">
             <TextBlock Text="Ответственный"/>
-            <TextBox Name ="Assignee" FontSize="16"/>
+            <TextBox Name ="Assignee" FontSize="16"
+                     Text="{Binding NewTask.Assignee.FIO}"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,0,10,0">
             <TextBlock Text="Измеритель"/>
-            <ComboBox Name="MeterBox" >
+            <ComboBox Name="MeterBox" SelectedItem="{Binding NewTask.Meter}">
                 <ComboBoxItem Content="Количественный"/>
                 <ComboBoxItem Content="Временной"/>
                 <ComboBoxItem Content="Ручной режим"/>
@@ -55,7 +58,8 @@
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="0" Grid.RowSpan="2" Margin="10,0,10,0">
             <TextBlock Text="Комментарий"/>
-            <TextBox Name ="DescriptionBox" TextWrapping="WrapWithOverflow" MinHeight="150" FontSize="16"/>
+            <TextBox Name ="DescriptionBox" TextWrapping="WrapWithOverflow" MinHeight="150" FontSize="16"
+                     Text="{Binding NewTask.Comment}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal"
                     Grid.Row="3"
@@ -65,8 +69,8 @@
                     Grid.ColumnSpan="2"
                     Margin="10,0,10,0"
                     >
-            <Button Content="OK" Name="OKBtn" Width="80" Height="30" Margin="0,0,10,20" IsDefault="True"/>
-            <Button Content="Отмена" Name="CancelBtn" Width="80" Height="30" Margin="10,0,0,20" IsCancel="True"/>
+            <Button Content="OK" Name="OKBtn" Width="80" Height="30" Margin="0,0,10,20" IsDefault="True" Click="OKBtn_Click"/>
+            <Button Content="Отмена" Name="CancelBtn" Width="80" Height="30" Margin="10,0,0,20" IsCancel="True" Click="CancelBtn_Click"/>
         </StackPanel>
     </Grid>
 </Window>

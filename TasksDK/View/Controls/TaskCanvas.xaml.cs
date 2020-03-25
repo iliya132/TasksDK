@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -23,34 +25,55 @@ namespace TasksDK.View.Controls
     /// </summary>
     public partial class TaskCanvas : UserControl
     {
-        public ObservableCollection<EmployeeTask> ItemsSource
-        {
-            get
-            {
-                return (ObservableCollection<EmployeeTask>)GetValue(ItemsSourceProperty);
-            }
-            set
-            {
-                SetValue(ItemsSourceProperty, value);
-            }
-        }
-        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register("ItemsSource", typeof(ObservableCollection<EmployeeTask>), typeof(TaskCanvas), new UIPropertyMetadata(null, new PropertyChangedCallback(ItemsSourceChanged)));
 
-        private static void ItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        #region ItemsSource
+        public IEnumerable<EmployeeTask> ItemsSource
         {
-            TaskCanvas control = (TaskCanvas)d;
-            control.Update();
+            get { return (IEnumerable<EmployeeTask>)GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
         }
 
+        public static readonly DependencyProperty ItemsSourceProperty = 
+            DependencyProperty.Register("ItemsSource", 
+                typeof(IEnumerable<EmployeeTask>), 
+                typeof(TaskCanvas), 
+                new PropertyMetadata(OnItemsSourcePropertyChanged));
 
+        private static void OnItemsSourcePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            TaskCanvas control = sender as TaskCanvas;
+            if (control != null)
+                control.OnItemsSourceChanged((IEnumerable<EmployeeTask>)e.OldValue, (IEnumerable<EmployeeTask>)e.NewValue);
+        }
+
+        private void OnItemsSourceChanged(IEnumerable<EmployeeTask> oldValue, IEnumerable<EmployeeTask> newValue)
+        {
+
+            INotifyCollectionChanged oldValueINotifyPropertyChanged = oldValue as INotifyCollectionChanged;
+            if (oldValueINotifyPropertyChanged != null)
+            {
+                oldValueINotifyPropertyChanged.CollectionChanged -= new NotifyCollectionChangedEventHandler(newValueINotifyCollectionChanged_CollectionChanged);
+            }
+            else
+            {
+                Update();
+            }
+            INotifyCollectionChanged newValueINotifyCollectionChanged = newValue as INotifyCollectionChanged;
+            if (newValueINotifyCollectionChanged != null)
+            {
+                newValueINotifyCollectionChanged.CollectionChanged += new NotifyCollectionChangedEventHandler(newValueINotifyCollectionChanged_CollectionChanged);
+            }
+
+        }
+
+        void newValueINotifyCollectionChanged_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Update();
+        }
+        #endregion
         public TaskCanvas()
         {
             InitializeComponent();
-        }
-
-        private void ItemsSource_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            Update();
         }
 
         private void Update()

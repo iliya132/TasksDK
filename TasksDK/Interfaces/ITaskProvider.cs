@@ -10,5 +10,6 @@ namespace TasksDK.Interfaces
     public interface ITaskProvider
     {
         List<EmployeeTask> GetTasks();
+        void AddTask(EmployeeTask newTask);
     }
 }

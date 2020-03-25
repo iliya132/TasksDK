@@ -16,13 +16,13 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal">
-            <Button Width="50" Height="50" Margin="5">
+            <Button Width="50" Height="50" Margin="5" Command="{Binding AddNewTaskCommand}">
                 <TextBlock Text="+" FontSize="36" TextAlignment="Center" FontWeight="Black" Foreground="Green"/>
             </Button>
         </StackPanel>
         
         <controls:TaskCanvas x:Name="tasksCanvas"
-            ItemsSource ="{Binding CurrentTasks}"
+            ItemsSource ="{Binding Main.CurrentTasks, Source={StaticResource Locator}, Mode=OneWay}"
             Grid.Row="1"
             Margin="50,0,50,0">
             

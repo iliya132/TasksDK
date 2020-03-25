@@ -23,5 +23,16 @@ namespace TasksDK.View
         {
             InitializeComponent();
         }
+
+        private void OKBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+            Close();
+        }
+
+        private void CancelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

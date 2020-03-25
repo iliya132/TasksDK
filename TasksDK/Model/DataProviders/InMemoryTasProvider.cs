@@ -11,12 +11,20 @@ namespace TasksDK.Model.DataProviders
     public class InMemoryTaskProvider : ITaskProvider
     {
         private IEmployeeProvider _employeeContext;
+        private List<EmployeeTask> _tasks = new List<EmployeeTask>();
+        public List<EmployeeTask> Tasks { get => _tasks; set => _tasks = value; }
         public InMemoryTaskProvider(IEmployeeProvider EmployeeProvider)
         {
             _employeeContext = EmployeeProvider;
+            GenerateTasks();
         }
 
-        public List<EmployeeTask> GetTasks()
+        public void AddTask(EmployeeTask newTask)
+        {
+            Tasks.Add(newTask);
+        }
+
+        public void GenerateTasks()
         {
             List<Employee> employees = _employeeContext.GetEmployees();
             EmployeeTask task = new EmployeeTask
@@ -55,10 +63,9 @@ namespace TasksDK.Model.DataProviders
                 Owner = employees[1],
                 Reporter = employees[1]
             };
-            return new List<EmployeeTask>()
-            {
-                task,task2
-            };
+            Tasks.AddRange(new List<EmployeeTask>() { task, task2 });
         }
+
+        public List<EmployeeTask> GetTasks() => Tasks;
     }
 }
