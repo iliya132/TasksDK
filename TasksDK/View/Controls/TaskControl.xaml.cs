@@ -21,11 +21,19 @@ namespace TasksDK.View.Controls
     /// </summary>
     public partial class TaskControl : UserControl
     {
-        public EmployeeTask Task { 
-            get=> (EmployeeTask)GetValue(TaskProperty); 
-            set=> SetValue(TaskProperty, value); }
+        public EmployeeTask Task
+        {
+            get 
+            { 
+                return (EmployeeTask)GetValue(TaskProperty); 
+            }
+            set 
+            { 
+                SetValue(TaskProperty, value); 
+            }
+        }
 
-        public static DependencyProperty TaskProperty = DependencyProperty.Register("Task", typeof(EmployeeTask), typeof(TaskControl));
+        public static DependencyProperty TaskProperty = DependencyProperty.Register("Task", typeof(EmployeeTask), typeof(TaskControl), new PropertyMetadata(new EmployeeTask()));
         public TaskControl(EmployeeTask task)
         {
             Task = task;
@@ -34,9 +42,10 @@ namespace TasksDK.View.Controls
             CurrentProgressBar.Value = Task.SupervisorDonePercent;
             NameTextBlock.Text = NameTextBlock.Text;
             ChildCountTextBlock.Text = $"{Task.ChildTasks.Count}";
-            
+            menu1.CommandParameter = Task;
+
         }
-        public TaskControl() : this(null)
+        public TaskControl() : this(new EmployeeTask())
         {
         }
     }

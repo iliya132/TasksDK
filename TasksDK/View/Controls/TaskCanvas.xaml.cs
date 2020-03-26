@@ -27,6 +27,7 @@ namespace TasksDK.View.Controls
     {
 
         #region ItemsSource
+
         public IEnumerable<EmployeeTask> ItemsSource
         {
             get { return (IEnumerable<EmployeeTask>)GetValue(ItemsSourceProperty); }
@@ -62,6 +63,7 @@ namespace TasksDK.View.Controls
             if (newValueINotifyCollectionChanged != null)
             {
                 newValueINotifyCollectionChanged.CollectionChanged += new NotifyCollectionChangedEventHandler(newValueINotifyCollectionChanged_CollectionChanged);
+                Update();
             }
 
         }
@@ -70,7 +72,9 @@ namespace TasksDK.View.Controls
         {
             Update();
         }
+
         #endregion
+
         public TaskCanvas()
         {
             InitializeComponent();
@@ -83,7 +87,7 @@ namespace TasksDK.View.Controls
             {
                 TaskControl taskControl = new TaskControl(task);
                 taskControl.Margin = new Thickness(10);
-                taskControl.SetBinding(WidthProperty, "ActualWidth");
+                //taskControl.SetBinding(WidthProperty, "ActualWidth");
                 MainStackPanel.Children.Add(taskControl);
             }
         }

@@ -7,7 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              MinHeight="40"
-             MinWidth="600" Name="CurrentTaskControl" Width="100" >
+             MinWidth="600" Name="CurrentTaskControl" >
     <Button BorderBrush="Black" 
             Command="{Binding Main.ViewTaskCommand, Source={StaticResource Locator}}" 
             CommandParameter="{Binding ElementName=CurrentTaskControl, Path=Task}">
@@ -15,8 +15,8 @@
     <Grid Cursor="Hand">
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Name="menu1" Header="test" Command="{Binding Source={StaticResource Locator}, Path=Main.SelectParentCommand}"
-                              CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TaskControl}, Path=Task}"/>
+                    <MenuItem Name="menu1" Header="Посмотреть подзадачи" Command="{Binding Source={StaticResource Locator}, Path=Main.SelectParentCommand}"
+                              />
                 </ContextMenu>
             </Grid.ContextMenu>
         <ProgressBar Value="50" Background="White" Foreground="#FFB3F7BF" Name="CurrentProgressBar">

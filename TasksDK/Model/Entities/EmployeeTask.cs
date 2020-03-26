@@ -29,7 +29,30 @@ namespace TasksDK.Model.Entities
         public string EmployeeComment { get; set; }
         public string SupervisorComment { get; set; }
         public int EmployeeDonePercent { get; set; }
-        public int SupervisorDonePercent { get; set; }
+        private int _supervisorDonePercent = 0;
+        public int SupervisorDonePercent
+        {
+            get
+            {
+                int donePercent = 0;
+                if (ChildTasks.Count > 0)
+                {
+                    foreach(EmployeeTask _subtask in ChildTasks)
+                    {
+                        donePercent += _subtask.SupervisorDonePercent;
+                    }
+                    return donePercent/ChildTasks.Count;
+                }
+                else
+                {
+                    return _supervisorDonePercent;
+                }
+            }
+            set
+            {
+                _supervisorDonePercent = value;
+            }
+        }
         public string AwaitedResult { get; set; }
         public string Meter { get; set; }
 

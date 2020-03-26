@@ -21,7 +21,11 @@
                 <TextBlock Text="+" FontSize="36" TextAlignment="Center" FontWeight="Black" Foreground="Green"/>
             </Button>
         </StackPanel>
-
+        <StackPanel HorizontalAlignment="Left" Grid.Row="1" Name="HistoryBox">
+            <Button Name="BackBtn" Command="{Binding BackCommand}" Height="40" Width="40">
+                <TextBlock Text="НАЗАД"/>
+            </Button>
+        </StackPanel>
         <controls:TaskCanvas x:Name="tasksCanvas"
                              
             ItemsSource ="{Binding Main.CurrentTasks, Source={StaticResource Locator}, Mode=OneWay}"
