@@ -26,6 +26,7 @@ namespace TasksDK.ViewModel
         /// </summary>
         private EmployeeTask newTask = new EmployeeTask();
         public EmployeeTask NewTask { get => newTask; set => newTask = value; }
+
         #endregion
 
         #region Commands
@@ -66,10 +67,13 @@ namespace TasksDK.ViewModel
             SelectParentCommand = new RelayCommand<EmployeeTask>(SelectParent);
         }
 
+
+
         private void SelectParent(EmployeeTask task)
         {
             if (task != null)
             {
+                Console.WriteLine(task.Name);
                 CurrentTasks = new ObservableCollection<EmployeeTask>(task.ChildTasks);
             }
             else

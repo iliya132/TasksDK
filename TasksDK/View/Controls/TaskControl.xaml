@@ -3,20 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:TasksDK.View.Controls" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:TasksDK.View.Controls" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              MinHeight="40"
-             MinWidth="600" x:Name="currentTaskControl">
-    <Button BorderBrush="Black">
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="Click">
-                <i:InvokeCommandAction Command="{Binding Main.ViewTaskCommand, Source={StaticResource Locator}}" 
-                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=Task}"/>
-            </i:EventTrigger>
-        </i:Interaction.Triggers>
+             MinWidth="600" Name="CurrentTaskControl" Width="100" >
+    <Button BorderBrush="Black" 
+            Command="{Binding Main.ViewTaskCommand, Source={StaticResource Locator}}" 
+            CommandParameter="{Binding ElementName=CurrentTaskControl, Path=Task}">
 
     <Grid Cursor="Hand">
-        
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="menu1" Header="test" Command="{Binding Source={StaticResource Locator}, Path=Main.SelectParentCommand}"
+                              CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TaskControl}, Path=Task}"/>
+                </ContextMenu>
+            </Grid.ContextMenu>
         <ProgressBar Value="50" Background="White" Foreground="#FFB3F7BF" Name="CurrentProgressBar">
         </ProgressBar>
         <StackPanel>
@@ -28,7 +30,7 @@
                        Margin="5,10,10,0" VerticalAlignment="Top"/>
             </StackPanel>
         </StackPanel>
-            <TextBlock Name ="NameTextBlock"
+        <TextBlock Name ="NameTextBlock"
                        Margin="10,10,50,10"
                        Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=ActualWidth}"
                        HorizontalAlignment="Left"
@@ -36,19 +38,6 @@
                     FontSize="26" 
                     FontWeight="Bold" VerticalAlignment="Center"
                        TextWrapping="WrapWithOverflow"/>
-        <Grid.ContextMenu>
-            <ContextMenu>
-                    <MenuItem Header="Посмотреть подзадачи">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding Main.SelectParentCommand, Source={StaticResource Locator}}" 
-                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Path=Task}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </MenuItem>
-                    <MenuItem Header="Меню2"/>
-            </ContextMenu>
-        </Grid.ContextMenu>
     </Grid>
     </Button>
 
