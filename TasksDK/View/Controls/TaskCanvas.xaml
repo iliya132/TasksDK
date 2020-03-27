@@ -13,16 +13,11 @@
         <!--<Grid.Effect>
             <DropShadowEffect/>
         </Grid.Effect>-->
-
         <ScrollViewer Height="{Binding ElementName=mainGrid, Path=ActualHeight}"
                       Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Path=ActualWidth}"
                       VerticalScrollBarVisibility="Auto">
             <StackPanel Name="MainStackPanel">
-                <StackPanel.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Name="menu1" Header="test" Command="{Binding Source={StaticResource Locator}, Path=Main.SelectParentCommand}"/>
-                    </ContextMenu>
-                </StackPanel.ContextMenu>
+                
             </StackPanel>
         </ScrollViewer>
 

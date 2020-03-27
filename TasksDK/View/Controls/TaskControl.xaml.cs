@@ -32,6 +32,21 @@ namespace TasksDK.View.Controls
                 SetValue(TaskProperty, value); 
             }
         }
+        
+        public delegate void ClickEventHandler(object sender);
+        public event ClickEventHandler OnClick;
+        protected virtual void RaiseClickEvent()
+        {
+            OnClick?.Invoke(this);
+        }
+        public void UnSelect()
+        {
+            SelectBox.Visibility = Visibility.Hidden;
+        }
+        public void Select()
+        {
+            SelectBox.Visibility = Visibility.Visible;
+        }
 
         public static DependencyProperty TaskProperty = DependencyProperty.Register("Task", typeof(EmployeeTask), typeof(TaskControl), new PropertyMetadata(new EmployeeTask()));
         public TaskControl(EmployeeTask task)
@@ -41,12 +56,19 @@ namespace TasksDK.View.Controls
             NameTextBlock.Text = Task.Name;
             CurrentProgressBar.Value = Task.SupervisorDonePercent;
             NameTextBlock.Text = NameTextBlock.Text;
+
             ChildCountTextBlock.Text = $"{Task.ChildTasks.Count}";
             menu1.CommandParameter = Task;
+            MoreMenuItem.CommandParameter = Task;
 
         }
         public TaskControl() : this(new EmployeeTask())
         {
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            RaiseClickEvent();
         }
     }
    

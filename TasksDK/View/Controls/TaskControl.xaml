@@ -7,21 +7,31 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              MinHeight="40"
-             MinWidth="600" Name="CurrentTaskControl" >
+             Name="CurrentTaskControl" >
     <Button BorderBrush="Black" 
-            Command="{Binding Main.ViewTaskCommand, Source={StaticResource Locator}}" 
+            Click="Button_Click"
+            Command="{Binding Main.SelectTaskCommand, Source={StaticResource Locator}}" 
             CommandParameter="{Binding ElementName=CurrentTaskControl, Path=Task}">
-
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseDoubleClick">
+                <i:InvokeCommandAction Command="{Binding Source={StaticResource Locator}, Path=Main.SelectParentCommand}"
+                                       CommandParameter="{Binding Source={StaticResource Locator}, Path=Main.SelectedTask}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
     <Grid Cursor="Hand">
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Name="menu1" Header="Посмотреть подзадачи" Command="{Binding Source={StaticResource Locator}, Path=Main.SelectParentCommand}"
-                              />
+                    <MenuItem Name="menu1" Header="Посмотреть подзадачи" Command="{Binding Source={StaticResource Locator}, Path=Main.SelectParentCommand}"/>
+                    <MenuItem Name="MoreMenuItem" Header="Редактировать" Command="{Binding Source={StaticResource Locator}, Path=Main.ViewTaskCommand}"/>
                 </ContextMenu>
             </Grid.ContextMenu>
-        <ProgressBar Value="50" Background="White" Foreground="#FFB3F7BF" Name="CurrentProgressBar">
+
+            <ProgressBar Value="50" Background="White" Foreground="#FFB3F7BF" Name="CurrentProgressBar"
+                     Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=ActualWidth}">
         </ProgressBar>
-        <StackPanel>
+            <Rectangle Name="SelectBox" Fill="Yellow" Opacity="0.2" Visibility="Hidden"
+                       Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=ActualWidth}"/>
+            <StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Text="3" TextAlignment="Center"  VerticalAlignment="Center"
                            Name="ChildCountTextBlock"
@@ -32,10 +42,10 @@
         </StackPanel>
         <TextBlock Name ="NameTextBlock"
                        Margin="10,10,50,10"
-                       Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=ActualWidth}"
+                       
                        HorizontalAlignment="Left"
                     Text="Название задачи" 
-                    FontSize="26" 
+                    FontSize="14" 
                     FontWeight="Bold" VerticalAlignment="Center"
                        TextWrapping="WrapWithOverflow"/>
     </Grid>

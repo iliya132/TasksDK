@@ -39,6 +39,7 @@ namespace TasksDK.View.Controls
                 typeof(IEnumerable<EmployeeTask>), 
                 typeof(TaskCanvas), 
                 new PropertyMetadata(OnItemsSourcePropertyChanged));
+        private EmployeeTask _selectedTask;
 
         private static void OnItemsSourcePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
@@ -78,6 +79,7 @@ namespace TasksDK.View.Controls
         public TaskCanvas()
         {
             InitializeComponent();
+            ItemsSource.
         }
 
         private void Update()
@@ -87,9 +89,23 @@ namespace TasksDK.View.Controls
             {
                 TaskControl taskControl = new TaskControl(task);
                 taskControl.Margin = new Thickness(10);
+                taskControl.OnClick += TaskControl_OnClick;
                 //taskControl.SetBinding(WidthProperty, "ActualWidth");
                 MainStackPanel.Children.Add(taskControl);
+                if (task == _selectedTask)
+                    taskControl.Select();
             }
+        }
+
+        private void TaskControl_OnClick(object sender)
+        {
+            TaskControl control = sender as TaskControl;
+            foreach(TaskControl taskControl in MainStackPanel.Children)
+            {
+                taskControl.UnSelect();
+            }
+            _selectedTask = control.Task;
+            control.Select();
         }
     }
 }

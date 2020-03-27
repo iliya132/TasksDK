@@ -33,14 +33,18 @@ namespace TasksDK.ViewModel
         /// </summary>
         private EmployeeTask newTask = new EmployeeTask();
         public EmployeeTask NewTask { get => newTask; set => newTask = value; }
+        private EmployeeTask _selectedTask;
+        public EmployeeTask SelectedTask { get => _selectedTask; set => _selectedTask = value; }
 
         #endregion
 
         #region Commands
         public RelayCommand AddNewTaskCommand { get; set; }
+        public RelayCommand AddNewSubTaskCommand { get; set; }
         public RelayCommand BackCommand { get; set; }
         public RelayCommand<EmployeeTask> ViewTaskCommand { get; set; }
         public RelayCommand<EmployeeTask> SelectParentCommand { get; set; }
+        public RelayCommand<EmployeeTask> SelectTaskCommand { get; set; }
 
         #endregion
 
@@ -66,10 +70,29 @@ namespace TasksDK.ViewModel
             newTask = new EmployeeTask();
         }
 
+        private void AddSubTask()
+        {
+            if (SelectedTask != null)
+            {
+                AddTask addTaskWindow = new AddTask();
+                if (addTaskWindow.ShowDialog() == true)
+                {
+                    SelectedTask.ChildTasks.Add(newTask.AsCopy());
+                }
+                newTask = new EmployeeTask();
+
+                UpdateTasks();
+
+            }
+            
+        }
+
         private void InitializeData()
         {
 
             _mainTask.ChildTasks = new List<EmployeeTask>(_tasks.GetTasks());
+            
+            _currentTask = _mainTask;
             TaskStack.Push(_mainTask);
             CurrentTasks = new ObservableCollection<EmployeeTask>(_mainTask.ChildTasks);
         }
@@ -77,9 +100,17 @@ namespace TasksDK.ViewModel
         private void InitializeCommands()
         {
             AddNewTaskCommand = new RelayCommand(AddNewTask);
+            AddNewSubTaskCommand = new RelayCommand(AddSubTask);
             ViewTaskCommand = new RelayCommand<EmployeeTask>(ViewTask);
             SelectParentCommand = new RelayCommand<EmployeeTask>(SelectParent);
             BackCommand = new RelayCommand(Back);
+            SelectTaskCommand = new RelayCommand<EmployeeTask>(SelectTask);
+        }
+
+        private void SelectTask(EmployeeTask task)
+        {
+            SelectedTask = task;
+            RaisePropertyChanged("SelectedTask");
         }
 
         private void Back()
@@ -98,15 +129,19 @@ namespace TasksDK.ViewModel
             {
                 TaskStack.Push(task);
                 _currentTask = task;
-
-                CurrentTasks.Clear();
-                foreach (EmployeeTask childTask in task.ChildTasks)
-                {
-                    CurrentTasks.Add(childTask);
-                }
+                UpdateTasks();
+                SelectTask(task.ChildTasks[0]);
             }
         }
 
+        private void UpdateTasks()
+        {
+            CurrentTasks.Clear();
+            foreach (EmployeeTask childTask in _currentTask.ChildTasks)
+            {
+                CurrentTasks.Add(childTask);
+            }
+        }
         private void ViewTask(EmployeeTask task)
         {
             EmployeeTask tempTask = task.AsCopy();
@@ -115,6 +150,10 @@ namespace TasksDK.ViewModel
             if (addTaskWindow.ShowDialog() == false)
             {
                 task.CopyFields(tempTask);
+            }
+            else
+            {
+                UpdateTasks();
             }
             newTask = new EmployeeTask();
         }

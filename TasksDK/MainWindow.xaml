@@ -15,26 +15,66 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Horizontal">
-            <Button Width="50" Height="50" Margin="5" Command="{Binding AddNewTaskCommand}">
-                <TextBlock Text="+" FontSize="36" TextAlignment="Center" FontWeight="Black" Foreground="Green"/>
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
+            <Button Width="40" Height="40" Command="{Binding AddNewTaskCommand}" Margin="5,0,5,0">
+                <TextBlock Text="+" FontSize="15" TextAlignment="Center" FontWeight="Black" Foreground="Green"/>
             </Button>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Left" Grid.Row="1" Name="HistoryBox">
-            <Button Name="BackBtn" Command="{Binding BackCommand}" Height="40" Width="40">
-                <TextBlock Text="НАЗАД"/>
+            <Button  Height="40" Command="{Binding AddNewSubTaskCommand}" Margin="5,0,5,0">
+                <TextBlock Text="+подзадачу" FontSize="15" TextAlignment="Center" FontWeight="Black" Foreground="Green"/>
             </Button>
+                <Button Name="BackBtn" Command="{Binding BackCommand}" Height="40" >
+                    <TextBlock Text="НАЗАД"/>
+                </Button>
         </StackPanel>
+
         <controls:TaskCanvas x:Name="tasksCanvas"
                              
             ItemsSource ="{Binding Main.CurrentTasks, Source={StaticResource Locator}, Mode=OneWay}"
-            Grid.Row="1"
-            Margin="50,0,50,0">
-
-
+            Grid.Row="1">
         </controls:TaskCanvas>
-        <Border BorderBrush="Black"
+
+        <Grid Grid.Column="1" Grid.Row="1" Margin="5">
+            <StackPanel  Grid.RowSpan="4">
+                <TextBlock Text="Название" />
+                <TextBox Name ="NameTextBox" Text="{Binding SelectedTask.Name}"/>
+
+                <TextBlock Text="Ожидаемый результат" />
+                <TextBox Name ="AwaitedResultTextBox" TextWrapping="Wrap" 
+                     Text="{Binding SelectedTask.AwaitedResult}"/>
+
+                <TextBlock Text="Ответственный" />
+                <TextBox Name ="ResponsibleManTextBox" TextWrapping="Wrap" 
+                     Text="{Binding SelectedTask.Assignee.FIO}"/>
+
+                <TextBlock Text="Комментарий" />
+                <TextBox Name ="DescriptionBox" TextWrapping="WrapWithOverflow" 
+                     Text="{Binding SelectedTask.Comment}"/>
+
+                <TextBlock Text="Инициатор"/>
+                <TextBox Name ="Reporter" Text="{Binding SelectedTask.Reporter.FIO}"/>
+
+                <TextBlock Text="Ответственный" />
+                <TextBox Name ="Assignee" Text="{Binding SelectedTask.Assignee.FIO}"/>
+
+                <TextBlock Text="Измеритель" />
+                <ComboBox Name="MeterBox" SelectedItem="{Binding SelectedTask.Meter}">
+                    <ComboBoxItem Content="Количественный"/>
+                    <ComboBoxItem Content="Временной"/>
+                    <ComboBoxItem Content="Ручной режим"/>
+                </ComboBox>
+            </StackPanel>
+            
+        </Grid>
+        <Border BorderBrush="Black" Grid.Column="0" Grid.Row="1"
                 BorderThickness="1"/>
+        <Border BorderBrush="Black" Grid.Column="1" Grid.Row="1"
+                BorderThickness="1"/>
+        <Border BorderBrush="Black"
+                BorderThickness="1" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>
