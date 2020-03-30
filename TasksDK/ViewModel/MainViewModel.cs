@@ -43,6 +43,7 @@ namespace TasksDK.ViewModel
         public RelayCommand AddNewSubTaskCommand { get; set; }
         public RelayCommand BackCommand { get; set; }
         public RelayCommand<EmployeeTask> ViewTaskCommand { get; set; }
+        public RelayCommand<EmployeeTask> DeleteTask { get; set; }
         public RelayCommand<EmployeeTask> SelectParentCommand { get; set; }
         public RelayCommand<EmployeeTask> SelectTaskCommand { get; set; }
 
@@ -78,6 +79,8 @@ namespace TasksDK.ViewModel
                 if (addTaskWindow.ShowDialog() == true)
                 {
                     SelectedTask.ChildTasks.Add(newTask.AsCopy());
+                    CurrentTasks.Add(newTask.AsCopy());
+                    _tasks.AddTask(newTask.AsCopy());
                 }
                 newTask = new EmployeeTask();
 
@@ -105,6 +108,31 @@ namespace TasksDK.ViewModel
             SelectParentCommand = new RelayCommand<EmployeeTask>(SelectParent);
             BackCommand = new RelayCommand(Back);
             SelectTaskCommand = new RelayCommand<EmployeeTask>(SelectTask);
+            DeleteTask = new RelayCommand<EmployeeTask>(DeleteTaskMethod);
+        }
+
+        private void DeleteTaskMethod(EmployeeTask task)
+        {
+            EmployeeTask deletedTask = null;
+            foreach(EmployeeTask _task in CurrentTasks)
+            {
+                if (_task.Equals(task))
+                {
+                    deletedTask = _task;
+                    break;
+                }
+            }
+            if (deletedTask != null)
+            {
+                CurrentTasks.Remove(deletedTask);
+                _tasks.Remove(deletedTask);
+                _currentTask.ChildTasks.Remove(deletedTask);
+                if (_currentTask.ChildTasks.Count < 1)
+                {
+                    Back();
+                }
+                UpdateTasks();
+            }
         }
 
         private void SelectTask(EmployeeTask task)
@@ -129,8 +157,8 @@ namespace TasksDK.ViewModel
             {
                 TaskStack.Push(task);
                 _currentTask = task;
-                UpdateTasks();
                 SelectTask(task.ChildTasks[0]);
+                UpdateTasks();
             }
         }
 

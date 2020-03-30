@@ -24,6 +24,8 @@ namespace TasksDK.Model.DataProviders
             Tasks.Add(newTask);
         }
 
+        
+
         public void GenerateTasks()
         {
             List<Employee> employees = _employeeContext.GetEmployees();
@@ -176,5 +178,10 @@ namespace TasksDK.Model.DataProviders
         }
 
         public List<EmployeeTask> GetTasks() => Tasks;
+
+        public void Remove(EmployeeTask task)
+        {
+            Tasks.Remove(task);
+        }
     }
 }

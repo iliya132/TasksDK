@@ -11,5 +11,6 @@ namespace TasksDK.Interfaces
     {
         List<EmployeeTask> GetTasks();
         void AddTask(EmployeeTask newTask);
+        void Remove(EmployeeTask task);
     }
 }

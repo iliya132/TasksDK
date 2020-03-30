@@ -23,6 +23,7 @@
                 <ContextMenu>
                     <MenuItem Name="menu1" Header="Посмотреть подзадачи" Command="{Binding Source={StaticResource Locator}, Path=Main.SelectParentCommand}"/>
                     <MenuItem Name="MoreMenuItem" Header="Редактировать" Command="{Binding Source={StaticResource Locator}, Path=Main.ViewTaskCommand}"/>
+                    <MenuItem Name="DeleteMenuItem" Header="Удалить" Command="{Binding Source={StaticResource Locator}, Path=Main.DeleteTask}"/>
                 </ContextMenu>
             </Grid.ContextMenu>
 
@@ -32,7 +33,7 @@
             <Rectangle Name="SelectBox" Fill="Yellow" Opacity="0.2" Visibility="Hidden"
                        Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=ActualWidth}"/>
             <StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" ToolTip="Количество дочерних задач">
                 <TextBlock Text="3" TextAlignment="Center"  VerticalAlignment="Center"
                            Name="ChildCountTextBlock"
                            FontSize="18"/>

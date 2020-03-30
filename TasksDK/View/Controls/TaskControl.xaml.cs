@@ -42,10 +42,13 @@ namespace TasksDK.View.Controls
         public void UnSelect()
         {
             SelectBox.Visibility = Visibility.Hidden;
+            IsSelected = false;
         }
+        public bool IsSelected { get; set; }
         public void Select()
         {
             SelectBox.Visibility = Visibility.Visible;
+            IsSelected = true;
         }
 
         public static DependencyProperty TaskProperty = DependencyProperty.Register("Task", typeof(EmployeeTask), typeof(TaskControl), new PropertyMetadata(new EmployeeTask()));
@@ -60,6 +63,7 @@ namespace TasksDK.View.Controls
             ChildCountTextBlock.Text = $"{Task.ChildTasks.Count}";
             menu1.CommandParameter = Task;
             MoreMenuItem.CommandParameter = Task;
+            DeleteMenuItem.CommandParameter = Task;
 
         }
         public TaskControl() : this(new EmployeeTask())

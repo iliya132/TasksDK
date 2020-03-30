@@ -21,15 +21,15 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
-            <Button Width="40" Height="40" Command="{Binding AddNewTaskCommand}" Margin="5,0,5,0">
-                <TextBlock Text="+" FontSize="15" TextAlignment="Center" FontWeight="Black" Foreground="Green"/>
+            <Button Width="40" Height="40" Command="{Binding AddNewTaskCommand}" Margin="5,0,5,0" ToolTip="Добавить новую задачу в текущее представление">
+                <Image Source="Res/img/AddNode.png"/>
             </Button>
-            <Button  Height="40" Command="{Binding AddNewSubTaskCommand}" Margin="5,0,5,0">
-                <TextBlock Text="+подзадачу" FontSize="15" TextAlignment="Center" FontWeight="Black" Foreground="Green"/>
+            <Button  Height="40" Command="{Binding AddNewSubTaskCommand}" Margin="5,0,5,0" ToolTip="Добавить подзадачу в выделенную задачу">
+                <Image Source="Res/img/AddSubNode.png"/>
             </Button>
-                <Button Name="BackBtn" Command="{Binding BackCommand}" Height="40" >
-                    <TextBlock Text="НАЗАД"/>
-                </Button>
+            <Button Name="BackBtn" Command="{Binding BackCommand}" Height="40" Margin="5,0,5,0" ToolTip="Перейти к родительской задаче">
+                <Image Source="Res/img/UpArrow.png"/>
+            </Button>
         </StackPanel>
 
         <controls:TaskCanvas x:Name="tasksCanvas"
@@ -41,28 +41,31 @@
         <Grid Grid.Column="1" Grid.Row="1" Margin="5">
             <StackPanel  Grid.RowSpan="4">
                 <TextBlock Text="Название" />
-                <TextBox Name ="NameTextBox" Text="{Binding SelectedTask.Name}"/>
+                <TextBox Name ="NameTextBox" Text="{Binding SelectedTask.Name}"
+                         ToolTip="Наименование задачи. Видно всем"/>
 
                 <TextBlock Text="Ожидаемый результат" />
                 <TextBox Name ="AwaitedResultTextBox" TextWrapping="Wrap" 
-                     Text="{Binding SelectedTask.AwaitedResult}"/>
+                     Text="{Binding SelectedTask.AwaitedResult}"
+                         ToolTip="Ожидаемый результат от выполнения задачи"/>
 
                 <TextBlock Text="Ответственный" />
                 <TextBox Name ="ResponsibleManTextBox" TextWrapping="Wrap" 
-                     Text="{Binding SelectedTask.Assignee.FIO}"/>
+                     Text="{Binding SelectedTask.Assignee.FIO}"
+                         ToolTip="Ответственный за выполнение задачи"/>
 
                 <TextBlock Text="Комментарий" />
                 <TextBox Name ="DescriptionBox" TextWrapping="WrapWithOverflow" 
-                     Text="{Binding SelectedTask.Comment}"/>
+                     Text="{Binding SelectedTask.Comment}"
+                         ToolTip="Подробное описание задачи"/>
 
                 <TextBlock Text="Инициатор"/>
-                <TextBox Name ="Reporter" Text="{Binding SelectedTask.Reporter.FIO}"/>
-
-                <TextBlock Text="Ответственный" />
-                <TextBox Name ="Assignee" Text="{Binding SelectedTask.Assignee.FIO}"/>
+                <TextBox Name ="Reporter" Text="{Binding SelectedTask.Reporter.FIO}"
+                         ToolTip="Сотрудник, поставивший задачу"/>
 
                 <TextBlock Text="Измеритель" />
-                <ComboBox Name="MeterBox" SelectedItem="{Binding SelectedTask.Meter}">
+                <ComboBox Name="MeterBox" SelectedItem="{Binding SelectedTask.Meter}"
+                          ToolTip="Значение, отражающее способ измерения завершенности задачи">
                     <ComboBoxItem Content="Количественный"/>
                     <ComboBoxItem Content="Временной"/>
                     <ComboBoxItem Content="Ручной режим"/>

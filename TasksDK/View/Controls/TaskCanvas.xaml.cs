@@ -79,12 +79,14 @@ namespace TasksDK.View.Controls
         public TaskCanvas()
         {
             InitializeComponent();
-            ItemsSource.
+            
         }
 
         private void Update()
         {
             MainStackPanel.Children.Clear();
+            bool selected = false;
+            
             foreach (EmployeeTask task in ItemsSource)
             {
                 TaskControl taskControl = new TaskControl(task);
@@ -92,20 +94,31 @@ namespace TasksDK.View.Controls
                 taskControl.OnClick += TaskControl_OnClick;
                 //taskControl.SetBinding(WidthProperty, "ActualWidth");
                 MainStackPanel.Children.Add(taskControl);
-                if (task == _selectedTask)
+                if (task.Equals(_selectedTask))
+                {
                     taskControl.Select();
+                    selected = true;
+                }
+            }
+            if (MainStackPanel.Children.Count > 0 && !selected)
+            {
+                (MainStackPanel.Children[0] as TaskControl).Select();
             }
         }
 
         private void TaskControl_OnClick(object sender)
         {
             TaskControl control = sender as TaskControl;
-            foreach(TaskControl taskControl in MainStackPanel.Children)
+            if (!control.IsSelected)
             {
-                taskControl.UnSelect();
+                foreach (TaskControl taskControl in MainStackPanel.Children)
+                {
+                    taskControl.UnSelect();
+                }
+                _selectedTask = control.Task;
+                control.Select();
             }
-            _selectedTask = control.Task;
-            control.Select();
         }
+        
     }
 }

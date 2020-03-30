@@ -100,5 +100,14 @@ namespace TasksDK.Model.Entities
             Weight = task.Weight;
         }
 
+        public override bool Equals(object otherEmployeeTask)
+        {
+            if(otherEmployeeTask is EmployeeTask)
+            {
+                EmployeeTask comparableTask = otherEmployeeTask as EmployeeTask;
+                return this.Name.Equals(comparableTask.Name) ? true : false;
+            }
+            else return false;
+        }
     }
 }
