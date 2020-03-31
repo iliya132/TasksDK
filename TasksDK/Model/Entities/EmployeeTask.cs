@@ -14,7 +14,9 @@ namespace TasksDK.Model.Entities
             ChildTasks = childTasks;
             CreationDate = DateTime.Now;
             DueDate = DateTime.Now;
+            Processes = new List<Process>();
         }
+        public List<Process> Processes { get; set; }
         public string Name { get; set; }
         public EmployeeTask ParentTask { get; set; }
         public List<EmployeeTask> ChildTasks { get; set; }
@@ -76,7 +78,9 @@ namespace TasksDK.Model.Entities
                 Reporter = this.Reporter,
                 SupervisorComment = this.SupervisorComment,
                 SupervisorDonePercent = this.SupervisorDonePercent,
-                Weight = this.Weight
+                Weight = this.Weight,
+                Processes = this.Processes
+                
             };
         }
         public void CopyFields(EmployeeTask task)
@@ -98,6 +102,7 @@ namespace TasksDK.Model.Entities
             SupervisorComment = task.SupervisorComment;
             SupervisorDonePercent = task.SupervisorDonePercent;
             Weight = task.Weight;
+            Processes = task.Processes;
         }
 
         public override bool Equals(object otherEmployeeTask)

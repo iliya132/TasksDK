@@ -70,6 +70,26 @@
                     <ComboBoxItem Content="Временной"/>
                     <ComboBoxItem Content="Ручной режим"/>
                 </ComboBox>
+                <ListView Name="ProcessesList" Margin="0,10,0,0" MinHeight="40" MaxHeight="350" ItemsSource="{Binding SelectedTask.Processes}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Id">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Id}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Name">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </StackPanel>
             
         </Grid>

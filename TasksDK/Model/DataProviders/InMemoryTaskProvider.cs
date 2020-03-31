@@ -13,6 +13,9 @@ namespace TasksDK.Model.DataProviders
         private IEmployeeProvider _employeeContext;
         private List<EmployeeTask> _tasks = new List<EmployeeTask>();
         public List<EmployeeTask> Tasks { get => _tasks; set => _tasks = value; }
+
+        private List<Process> _processes = new List<Process>();
+        public List<Process> Processes { get => _processes; set => _processes = value; }
         public InMemoryTaskProvider(IEmployeeProvider EmployeeProvider)
         {
             _employeeContext = EmployeeProvider;
@@ -28,6 +31,16 @@ namespace TasksDK.Model.DataProviders
 
         public void GenerateTasks()
         {
+            Processes.Add(new Process() { Id=1, Name="Процесс1"});
+            Processes.Add(new Process() { Id=2, Name="Процесс2"});
+            Processes.Add(new Process() { Id=3, Name="Процесс3"});
+            Processes.Add(new Process() { Id=4, Name="Процесс4"});
+            Processes.Add(new Process() { Id=5, Name="Процесс5"});
+            Processes.Add(new Process() { Id=6, Name="Процесс6"});
+            Processes.Add(new Process() { Id=7, Name="Процесс7"});
+            Processes.Add(new Process() { Id=8, Name="Процесс8"});
+            Processes.Add(new Process() { Id=9, Name="Процесс9"});
+            Processes.Add(new Process() { Id=10, Name="Процесс10"});
             List<Employee> employees = _employeeContext.GetEmployees();
             Random random = new Random();
             EmployeeTask task = new EmployeeTask
@@ -46,7 +59,8 @@ namespace TasksDK.Model.DataProviders
                 SupervisorDonePercent = random.Next(0,100),
                 Weight = 100,
                 Owner = employees[1],
-                Reporter = employees[1]
+                Reporter = employees[1],
+                Processes = new List<Process>() { Processes[0], Processes[1]}
             };
             task.ChildTasks.Add(new EmployeeTask
             {
@@ -64,7 +78,8 @@ namespace TasksDK.Model.DataProviders
                 SupervisorDonePercent = random.Next(0, 100),
                 Weight = 100,
                 Owner = employees[0],
-                Reporter = employees[0]
+                Reporter = employees[0],
+                Processes = new List<Process>() { Processes[2], Processes[3] }
             });
             task.ChildTasks.Add(new EmployeeTask
             {
@@ -82,7 +97,8 @@ namespace TasksDK.Model.DataProviders
                 SupervisorDonePercent = random.Next(0, 100),
                 Weight = 100,
                 Owner = employees[0],
-                Reporter = employees[0]
+                Reporter = employees[0],
+                Processes = new List<Process>() { Processes[4], Processes[5] }
             });
             EmployeeTask task2 = new EmployeeTask
             {
@@ -100,7 +116,8 @@ namespace TasksDK.Model.DataProviders
                 SupervisorDonePercent = random.Next(0, 100),
                 Weight = 100,
                 Owner = employees[1],
-                Reporter = employees[1]
+                Reporter = employees[1],
+                Processes = new List<Process>() { Processes[6], Processes[7] }
             };
             task2.ChildTasks.Add(new EmployeeTask
             {
@@ -118,7 +135,8 @@ namespace TasksDK.Model.DataProviders
                 SupervisorDonePercent = random.Next(0, 100),
                 Weight = 100,
                 Owner = employees[0],
-                Reporter = employees[0]
+                Reporter = employees[0],
+                Processes = new List<Process>() { Processes[8], Processes[9] }
             });
             task2.ChildTasks.Add(new EmployeeTask
             {
@@ -136,7 +154,8 @@ namespace TasksDK.Model.DataProviders
                 SupervisorDonePercent = random.Next(0, 100),
                 Weight = 100,
                 Owner = employees[0],
-                Reporter = employees[0]
+                Reporter = employees[0],
+                Processes = new List<Process>() { Processes[9], Processes[3] }
             });
             task2.ChildTasks.Add(new EmployeeTask
             {
@@ -154,7 +173,8 @@ namespace TasksDK.Model.DataProviders
                 SupervisorDonePercent = random.Next(0, 100),
                 Weight = 100,
                 Owner = employees[0],
-                Reporter = employees[0]
+                Reporter = employees[0],
+                Processes = new List<Process>() { Processes[4], Processes[2] }
             });
             task2.ChildTasks.Add(new EmployeeTask
             {
@@ -172,12 +192,14 @@ namespace TasksDK.Model.DataProviders
                 SupervisorDonePercent = random.Next(0, 100),
                 Weight = 100,
                 Owner = employees[0],
-                Reporter = employees[0]
+                Reporter = employees[0],
+                Processes = new List<Process>() { Processes[7], Processes[4] }
             });
             Tasks.AddRange(new List<EmployeeTask>() { task, task2 });
         }
 
         public List<EmployeeTask> GetTasks() => Tasks;
+        public List<Process> GetProcesses() => Processes;
 
         public void Remove(EmployeeTask task)
         {

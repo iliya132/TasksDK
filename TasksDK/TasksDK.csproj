@@ -76,6 +76,7 @@
     <Compile Include="Model\Entities\Employee.cs" />
     <Compile Include="Model\Entities\EmployeeTask.cs" />
     <Compile Include="Model\DataProviders\InMemoryTaskProvider.cs" />
+    <Compile Include="Model\Entities\Process.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AddTask.xaml.cs">

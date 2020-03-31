@@ -46,7 +46,7 @@
         </StackPanel>
 
         <!--Инициатор-Ответственный-Измеритель-->
-        <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Margin="10,0,10,0">
+        <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Margin="10,0,10,0">
             <TextBlock Text="Инициатор"/>
             <TextBox Name ="Reporter" FontSize="16" Text="{Binding NewTask.Reporter.FIO}"/>
 
@@ -59,6 +59,27 @@
                 <ComboBoxItem Content="Временной"/>
                 <ComboBoxItem Content="Ручной режим"/>
             </ComboBox>
+            <ListView Name="ProcessesList" Margin="0,10,0,0" MinHeight="40" MaxHeight="350" 
+                      ItemsSource="{Binding Processes}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Id">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Id}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Name">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal"

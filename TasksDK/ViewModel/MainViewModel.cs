@@ -23,6 +23,8 @@ namespace TasksDK.ViewModel
         public ObservableCollection<EmployeeTask> CurrentTasks { get => _currentTasks; set => _currentTasks = value; }
         EmployeeTask _mainTask = new EmployeeTask();
         EmployeeTask _currentTask = new EmployeeTask();
+        private List<Process> _processes;
+        public List<Process> Processes { get => _processes; set => _processes = value; }
 
         private Stack<EmployeeTask> _taskStack = new Stack<EmployeeTask>();
         public Stack<EmployeeTask> TaskStack { get => _taskStack; set => _taskStack = value; }
@@ -92,7 +94,7 @@ namespace TasksDK.ViewModel
 
         private void InitializeData()
         {
-
+            Processes = _tasks.GetProcesses();
             _mainTask.ChildTasks = new List<EmployeeTask>(_tasks.GetTasks());
             
             _currentTask = _mainTask;
