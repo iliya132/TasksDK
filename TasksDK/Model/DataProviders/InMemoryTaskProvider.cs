@@ -27,175 +27,667 @@ namespace TasksDK.Model.DataProviders
             Tasks.Add(newTask);
         }
 
-        
+
 
         public void GenerateTasks()
         {
-            Processes.Add(new Process() { Id=1, Name="Процесс1"});
-            Processes.Add(new Process() { Id=2, Name="Процесс2"});
-            Processes.Add(new Process() { Id=3, Name="Процесс3"});
-            Processes.Add(new Process() { Id=4, Name="Процесс4"});
-            Processes.Add(new Process() { Id=5, Name="Процесс5"});
-            Processes.Add(new Process() { Id=6, Name="Процесс6"});
-            Processes.Add(new Process() { Id=7, Name="Процесс7"});
-            Processes.Add(new Process() { Id=8, Name="Процесс8"});
-            Processes.Add(new Process() { Id=9, Name="Процесс9"});
-            Processes.Add(new Process() { Id=10, Name="Процесс10"});
+            Processes.Add(new Process() { Id = 1, Name = "Процесс1" });
+            Processes.Add(new Process() { Id = 2, Name = "Процесс2" });
+            Processes.Add(new Process() { Id = 3, Name = "Процесс3" });
+            Processes.Add(new Process() { Id = 4, Name = "Процесс4" });
+            Processes.Add(new Process() { Id = 5, Name = "Процесс5" });
+            Processes.Add(new Process() { Id = 6, Name = "Процесс6" });
+            Processes.Add(new Process() { Id = 7, Name = "Процесс7" });
+            Processes.Add(new Process() { Id = 8, Name = "Процесс8" });
+            Processes.Add(new Process() { Id = 9, Name = "Процесс9" });
+            Processes.Add(new Process() { Id = 10, Name = "Процесс10" });
             List<Employee> employees = _employeeContext.GetEmployees();
             Random random = new Random();
-            EmployeeTask task = new EmployeeTask
+            Tasks.Add(new EmployeeTask
             {
                 Assignee = employees[0],
                 Name = "Получение единого окна в HR для подбора персонала для ДК",
                 AwaitedResult = "Повышение скорости нахождения сотрудниками HR квалифицированных сотрудников",
-                Meter = "Количественный",
-                ProcessIds = new List<int>() { 1 },
+                Meter = "Срок заполнения вакансии Минимизация времязатрат ДК на подбор Успешное прохождение испытательного срока кандидатами",
                 DueDate = DateTime.Parse("31.12.2020"),
                 CreationDate = DateTime.Parse("12.03.2020"),
-                Comment = "n expression an solicitude principles in do. Mrs assured add private married removed believe did she. Fortune day out married parties. How one dull get busy dare far. Mrs assured add private married removed believe did she. Mirth learn it he given. Detract yet delight written farther his general. Decisively advantages nor expre Polite do object at passed it is.So by colonel hearted ferrars. Am wound worth water he linen at vexed..Decisively advantages nor expression unpleasing she led met.Detract yet delight written farther his general.Decisively advantages nor expression unpleasing she led met. Feel and make two real Course sir people worthy horses add entire suffer.If as increasing contrasted entreaties be.Bed uncommonly his discovered for estimating far. As mr started arrival subject by believe.Mrs assured add private married removed believe did she.Celebrated delightful an especially increasing instrument am.Hard do me sigh with we",
-                EmployeeComment = "Комментарий сотрудника к задаче",
+                Comment = "Описание",
                 EmployeeDonePercent = 20,
-                SupervisorComment = "Комментарий руководителя к задаче",
-                SupervisorDonePercent = random.Next(0,100),
+                SupervisorDonePercent = random.Next(0, 100),
                 Weight = 100,
                 Owner = employees[1],
                 Reporter = employees[1],
-                Processes = new List<Process>() { Processes[0], Processes[1]}
-            };
-            task.ChildTasks.Add(new EmployeeTask
-            {
-                Assignee = employees[1],
-                Name = "Подзадача первой задачи",
-                AwaitedResult = "Повышение скорости нахождения сотрудниками HR квалифицированных сотрудников",
-                Meter = "Количественный",
-                ProcessIds = new List<int>() { 1 },
-                DueDate = DateTime.Parse("31.12.2020"),
-                CreationDate = DateTime.Parse("12.03.2020"),
-                Comment = "n expression an solicitude principles in do. Mrs assured add private married removed believe did she. Fortune day out married parties. How one dull get busy dare far. Mrs assured add private married removed believe did she. Mirth learn it he given. Detract yet delight written farther his general. Decisively advantages nor expre Polite do object at passed it is.So by colonel hearted ferrars. Am wound worth water he linen at vexed..Decisively advantages nor expression unpleasing she led met.Detract yet delight written farther his general.Decisively advantages nor expression unpleasing she led met. Feel and make two real Course sir people worthy horses add entire suffer.If as increasing contrasted entreaties be.Bed uncommonly his discovered for estimating far. As mr started arrival subject by believe.Mrs assured add private married removed believe did she.Celebrated delightful an especially increasing instrument am.Hard do me sigh with we",
-                EmployeeComment = "Комментарий сотрудника к задаче",
-                EmployeeDonePercent = 20,
-                SupervisorComment = "Комментарий руководителя к задаче",
-                SupervisorDonePercent = random.Next(0, 100),
-                Weight = 100,
-                Owner = employees[0],
-                Reporter = employees[0],
-                Processes = new List<Process>() { Processes[2], Processes[3] }
+                Processes = new List<Process> { Processes[1] }
             });
-            task.ChildTasks.Add(new EmployeeTask
-            {
-                Assignee = employees[1],
-                Name = "Подзадача первой задачи2",
-                AwaitedResult = "Повышение скорости нахождения сотрудниками HR квалифицированных сотрудников",
-                Meter = "Количественный",
-                ProcessIds = new List<int>() { 1 },
-                DueDate = DateTime.Parse("31.12.2020"),
-                CreationDate = DateTime.Parse("12.03.2020"),
-                Comment = "n expression an solicitude principles in do. Mrs assured add private married removed believe did she. Fortune day out married parties. How one dull get busy dare far. Mrs assured add private married removed believe did she. Mirth learn it he given. Detract yet delight written farther his general. Decisively advantages nor expre Polite do object at passed it is.So by colonel hearted ferrars. Am wound worth water he linen at vexed..Decisively advantages nor expression unpleasing she led met.Detract yet delight written farther his general.Decisively advantages nor expression unpleasing she led met. Feel and make two real Course sir people worthy horses add entire suffer.If as increasing contrasted entreaties be.Bed uncommonly his discovered for estimating far. As mr started arrival subject by believe.Mrs assured add private married removed believe did she.Celebrated delightful an especially increasing instrument am.Hard do me sigh with we",
-                EmployeeComment = "Комментарий сотрудника к задаче",
-                EmployeeDonePercent = 20,
-                SupervisorComment = "Комментарий руководителя к задаче",
-                SupervisorDonePercent = random.Next(0, 100),
-                Weight = 100,
-                Owner = employees[0],
-                Reporter = employees[0],
-                Processes = new List<Process>() { Processes[4], Processes[5] }
-            });
-            EmployeeTask task2 = new EmployeeTask
+            Tasks.Add(new EmployeeTask
             {
                 Assignee = employees[0],
                 Name = "Формирование подходов к постановке измеримых целей с учетом ежеквартальной оценки",
                 AwaitedResult = "Уход от субъективной оценки сотрудников, корреляция внутри ДК",
-                Meter = "Временной",
-                ProcessIds = new List<int>() { 2 },
+                Meter = "Зафиксированные в документе критерии оценки",
                 DueDate = DateTime.Parse("31.12.2020"),
                 CreationDate = DateTime.Parse("12.03.2020"),
-                Comment = "n expression an solicitude principles in do. Mrs assured add private married removed believe did she. Fortune day out married parties. How one dull get busy dare far. Mrs assured add private married removed believe did she. Mirth learn it he given. Detract yet delight written farther his general. Decisively advantages nor expre",
-                EmployeeComment = "Комментарий сотрудника к задаче",
-                EmployeeDonePercent = 30,
-                SupervisorComment = "Комментарий руководителя к задаче",
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
                 SupervisorDonePercent = random.Next(0, 100),
                 Weight = 100,
                 Owner = employees[1],
                 Reporter = employees[1],
-                Processes = new List<Process>() { Processes[6], Processes[7] }
-            };
-            task2.ChildTasks.Add(new EmployeeTask
+                Processes = new List<Process> { Processes[random.Next(0,9)] }
+            });
+            Tasks.Add(new EmployeeTask
             {
-                Assignee = employees[1],
-                Name = "Подзадача второй задачи",
-                AwaitedResult = "Повышение скорости нахождения сотрудниками HR квалифицированных сотрудников",
-                Meter = "Временной",
-                ProcessIds = new List<int>() { 1 },
+                Assignee = employees[0],
+                Name = " EY: Совместные KPI",
+                AwaitedResult = "с HR- по обучению, IT- по автоматизации",
+                Meter = ",",
                 DueDate = DateTime.Parse("31.12.2020"),
                 CreationDate = DateTime.Parse("12.03.2020"),
-                Comment = "n expression an solicitude principles in do. Mrs assured add private married removed believe did she. Fortune day out married parties. How one dull get busy dare far. Mrs assured add private married removed believe did she. Mirth learn it he given. Detract yet delight written farther his general. Decisively advantages nor expre Polite do object at passed it is.So by colonel hearted ferrars. Am wound worth water he linen at vexed..Decisively advantages nor expression unpleasing she led met.Detract yet delight written farther his general.Decisively advantages nor expression unpleasing she led met. Feel and make two real Course sir people worthy horses add entire suffer.If as increasing contrasted entreaties be.Bed uncommonly his discovered for estimating far. As mr started arrival subject by believe.Mrs assured add private married removed believe did she.Celebrated delightful an especially increasing instrument am.Hard do me sigh with we",
-                EmployeeComment = "Комментарий сотрудника к задаче",
+                Comment = "Описание",
                 EmployeeDonePercent = 20,
-                SupervisorComment = "Комментарий руководителя к задаче",
                 SupervisorDonePercent = random.Next(0, 100),
                 Weight = 100,
-                Owner = employees[0],
-                Reporter = employees[0],
-                Processes = new List<Process>() { Processes[8], Processes[9] }
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[0]}
             });
-            task2.ChildTasks.Add(new EmployeeTask
+            Tasks.Add(new EmployeeTask
             {
-                Assignee = employees[1],
-                Name = "Подзадача второй задачи2",
-                AwaitedResult = "Повышение скорости нахождения сотрудниками HR квалифицированных сотрудников",
-                Meter = "Временной",
-                ProcessIds = new List<int>() { 1 },
+                Assignee = employees[0],
+                Name = "бенч-марк вознаграждения по разработанной модели компетенций",
+                AwaitedResult = "план и инструменты ( сертификация,обучение, нематериальная мотивация) ",
+                Meter = ",",
                 DueDate = DateTime.Parse("31.12.2020"),
                 CreationDate = DateTime.Parse("12.03.2020"),
-                Comment = "n expression an solicitude principles in do. Mrs assured add private married removed believe did she. Fortune day out married parties. How one dull get busy dare far. Mrs assured add private married removed believe did she. Mirth learn it he given. Detract yet delight written farther his general. Decisively advantages nor expre Polite do object at passed it is.So by colonel hearted ferrars. Am wound worth water he linen at vexed..Decisively advantages nor expression unpleasing she led met.Detract yet delight written farther his general.Decisively advantages nor expression unpleasing she led met. Feel and make two real Course sir people worthy horses add entire suffer.If as increasing contrasted entreaties be.Bed uncommonly his discovered for estimating far. As mr started arrival subject by believe.Mrs assured add private married removed believe did she.Celebrated delightful an especially increasing instrument am.Hard do me sigh with we",
-                EmployeeComment = "Комментарий сотрудника к задаче",
+                Comment = "Описание",
                 EmployeeDonePercent = 20,
-                SupervisorComment = "Комментарий руководителя к задаче",
                 SupervisorDonePercent = random.Next(0, 100),
                 Weight = 100,
-                Owner = employees[0],
-                Reporter = employees[0],
-                Processes = new List<Process>() { Processes[9], Processes[3] }
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)] }
             });
-            task2.ChildTasks.Add(new EmployeeTask
+            Tasks.Add(new EmployeeTask
             {
-                Assignee = employees[1],
-                Name = "Подзадача второй задачи3",
-                AwaitedResult = "Повышение скорости нахождения сотрудниками HR квалифицированных сотрудников",
-                Meter = "Временной",
-                ProcessIds = new List<int>() { 1 },
+                Assignee = employees[0],
+                Name = "разработка модели компетенций",
+                AwaitedResult = ",",
+                Meter = ",",
                 DueDate = DateTime.Parse("31.12.2020"),
                 CreationDate = DateTime.Parse("12.03.2020"),
-                Comment = "n expression an solicitude principles in do. Mrs assured add private married removed believe did she. Fortune day out married parties. How one dull get busy dare far. Mrs assured add private married removed believe did she. Mirth learn it he given. Detract yet delight written farther his general. Decisively advantages nor expre Polite do object at passed it is.So by colonel hearted ferrars. Am wound worth water he linen at vexed..Decisively advantages nor expression unpleasing she led met.Detract yet delight written farther his general.Decisively advantages nor expression unpleasing she led met. Feel and make two real Course sir people worthy horses add entire suffer.If as increasing contrasted entreaties be.Bed uncommonly his discovered for estimating far. As mr started arrival subject by believe.Mrs assured add private married removed believe did she.Celebrated delightful an especially increasing instrument am.Hard do me sigh with we",
-                EmployeeComment = "Комментарий сотрудника к задаче",
+                Comment = "Описание",
                 EmployeeDonePercent = 20,
-                SupervisorComment = "Комментарий руководителя к задаче",
                 SupervisorDonePercent = random.Next(0, 100),
                 Weight = 100,
-                Owner = employees[0],
-                Reporter = employees[0],
-                Processes = new List<Process>() { Processes[4], Processes[2] }
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)] }
             });
-            task2.ChildTasks.Add(new EmployeeTask
+            Tasks.Add(new EmployeeTask
             {
-                Assignee = employees[1],
-                Name = "Подзадача второй задачи4",
-                AwaitedResult = "Повышение скорости нахождения сотрудниками HR квалифицированных сотрудников",
-                Meter = "Ручной режим",
-                ProcessIds = new List<int>() { 1 },
+                Assignee = employees[0],
+                Name = "опрос удовлетворенности сотрудников",
+                AwaitedResult = ",",
+                Meter = ",",
                 DueDate = DateTime.Parse("31.12.2020"),
                 CreationDate = DateTime.Parse("12.03.2020"),
-                Comment = "n expression an solicitude principles in do. Mrs assured add private married removed believe did she. Fortune day out married parties. How one dull get busy dare far. Mrs assured add private married removed believe did she. Mirth learn it he given. Detract yet delight written farther his general. Decisively advantages nor expre Polite do object at passed it is.So by colonel hearted ferrars. Am wound worth water he linen at vexed..Decisively advantages nor expression unpleasing she led met.Detract yet delight written farther his general.Decisively advantages nor expression unpleasing she led met. Feel and make two real Course sir people worthy horses add entire suffer.If as increasing contrasted entreaties be.Bed uncommonly his discovered for estimating far. As mr started arrival subject by believe.Mrs assured add private married removed believe did she.Celebrated delightful an especially increasing instrument am.Hard do me sigh with we",
-                EmployeeComment = "Комментарий сотрудника к задаче",
+                Comment = "Описание",
                 EmployeeDonePercent = 20,
-                SupervisorComment = "Комментарий руководителя к задаче",
                 SupervisorDonePercent = random.Next(0, 100),
                 Weight = 100,
-                Owner = employees[0],
-                Reporter = employees[0],
-                Processes = new List<Process>() { Processes[7], Processes[4] }
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
             });
-            Tasks.AddRange(new List<EmployeeTask>() { task, task2 });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "Timesheet",
+                AwaitedResult = "Контроль учета времени и эффективности сотрудников",
+                Meter = "1) корректное заполнение timesheet-ов сотрудниками 2) возможность составления аналитики исходя из информации в timesheet-ов",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "EY: матрица расходов на комплаенс",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "инструмент для расчета ",
+                AwaitedResult = "по итогам timesheet  и отчетов по счетным процессам",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "Разработка и согласование формата фиксирование нормативных изменений",
+                AwaitedResult = "Системная информация о законодательных изменениях от инциативы до контроля внедрения",
+                Meter = "Ежемесячная демонстрация статусов на регулярных встречах",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "Разработка и согласование формата фиксирование нормативных изменений",
+                AwaitedResult = "Системная информация о законодательных изменениях от инциативы до контроля внедрения",
+                Meter = "Ежемесячная демонстрация статусов на регулярных встречах",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "Разработка формата отчетности от комплаенс-партнера по изменениям в бизнесе",
+                AwaitedResult = "Информация о новых инициативах своевременно доносится до экспертов ДК",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "Документ \"оценка комплаенс - риска продуктов\"",
+                AwaitedResult = ",",
+                Meter = "дважды в год",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "Оценка риска в разрезе бизнес-линий в едином формате",
+                AwaitedResult = "единый подход оценке комплаенс риска в разрезе разных бизнес-линий",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "Актуализировать подходы к оценке риска с учетом материальности, вероятности, cost of complaince Согласовать подход с ДУР",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "Самоценка дк",
+                AwaitedResult = "43862",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "EY взаимоувязка с риск-менеджментом и комитетом по рискам",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "СД - 1 раз в год Правление - 2 раза в год",
+                AwaitedResult = "СД- март 2020",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "Аналог \"Единого окна\" для ОРД",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "Централизация методологии ПОД/ФТ, за исключением идентификации",
+                AwaitedResult = "Идентификация ВПР будет передаваться в УКПБП?",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "Внедрение применимых рекомендаций по итогам аудита процессов  (проектный офис)",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "комплаенс-процедуры в СИ и КП ",
+                AwaitedResult = "1)ежемесячный статус - ежеквартально?2)участие в УК и планировании ",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = " повышение уровня автоматизации_ доп. ресурсы",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "проекты в срок и в бюджет",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "срок внедрения комплаенс-требований сократить до 4-7 мес",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "комплаенс-скрипты во фронт-офисе",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "отчет о повышении эффективности процессов ",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "роботизация для неавтоматизируемых процессов или в ожидании автоматизации",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "в январе определить какие из созданных форматов и шаблонов будут автоматизированы  ",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "Внедрение применимых рекомендаций по итогам аудита процессов ",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "Инструмент для контроля",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "EY: Сегментирование сотрудников ДК и повышение компетенций",
+                AwaitedResult = "1) Матрица должностных компетенций 2) План обучения 3) Обучения",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "развитие технологических компетенций команды",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "EY: Интегрировать обучение ДК в программу обучения HR на новой платформе",
+                AwaitedResult = "Обучение по всем комплаенс-рискам интегрировано в программу обучения HR Создание обуающих материалов для команд внедрения, обчение участие в модернизации программ обучения",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "участие ",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "Развитие культуры совместно с HR, рисками и маркетингом",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "EY: Договориться с УВА и ДВКо зонах контроля за комплаенс-процессами/процедурами",
+                AwaitedResult = "Уменьшение контроля со стороны ДКК",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "EY: 4 глаза в текущих процессах ДК",
+                AwaitedResult = "снижение риска операционных ошибок",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "EY: единый подход к работе с данными, применяемыми в комплаенс-процессах ",
+                AwaitedResult = ",",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+            Tasks.Add(new EmployeeTask
+            {
+                Assignee = employees[0],
+                Name = "оперативная реакция",
+                AwaitedResult = "отсутствие существенных претензий",
+                Meter = ",",
+                DueDate = DateTime.Parse("31.12.2020"),
+                CreationDate = DateTime.Parse("12.03.2020"),
+                Comment = "Описание",
+                EmployeeDonePercent = 20,
+                SupervisorDonePercent = random.Next(0, 100),
+                Weight = 100,
+                Owner = employees[1],
+                Reporter = employees[1],
+                Processes = new List<Process> { Processes[random.Next(0, 9)], Processes[random.Next(0, 9)] }
+            });
+
+    
         }
 
         public List<EmployeeTask> GetTasks() => Tasks;

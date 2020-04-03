@@ -101,6 +101,7 @@ namespace TasksDK.ViewModel
             _currentTask = _mainTask;
             TaskStack.Push(_mainTask);
             CurrentTasks = new ObservableCollection<EmployeeTask>(_mainTask.ChildTasks);
+            SelectedTask = _mainTask.ChildTasks[0];
         }
 
         private void InitializeCommands()
@@ -183,6 +184,7 @@ namespace TasksDK.ViewModel
         private void UpdateTasks()
         {
             CurrentTasks.Clear();
+            
             foreach (EmployeeTask childTask in _currentTask.ChildTasks)
             {
                 CurrentTasks.Add(childTask);
