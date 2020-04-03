@@ -48,6 +48,7 @@ namespace TasksDK.ViewModel
         public RelayCommand<EmployeeTask> DeleteTask { get; set; }
         public RelayCommand<EmployeeTask> SelectParentCommand { get; set; }
         public RelayCommand<EmployeeTask> SelectTaskCommand { get; set; }
+        public RelayCommand<ICollection<object>> StoreProcessSelection { get; set; }
 
         #endregion
 
@@ -111,6 +112,21 @@ namespace TasksDK.ViewModel
             BackCommand = new RelayCommand(Back);
             SelectTaskCommand = new RelayCommand<EmployeeTask>(SelectTask);
             DeleteTask = new RelayCommand<EmployeeTask>(DeleteTaskMethod);
+            StoreProcessSelection = new RelayCommand<ICollection<object>>(StoreProcesses);
+        }
+
+        private void StoreProcesses(ICollection<object> obj)
+        {
+            List<Process> _processes = new List<Process>();
+            foreach(object item in obj)
+            {
+                if(item is Process)
+                {
+                    _processes.Add(item as Process);
+                }
+            }
+            newTask.Processes = _processes;
+            
         }
 
         private void DeleteTaskMethod(EmployeeTask task)

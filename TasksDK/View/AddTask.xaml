@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TasksDK.View"
+        xmlns:local="clr-namespace:TasksDK.View" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="AddTask" MinHeight="600" MinWidth="900" Width="900" Height="600"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
@@ -61,6 +61,12 @@
             </ComboBox>
             <ListView Name="ProcessesList" Margin="0,10,0,0" MinHeight="40" MaxHeight="350" 
                       ItemsSource="{Binding Processes}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding StoreProcessSelection}"
+                                               CommandParameter="{Binding ElementName=ProcessesList, Path=SelectedItems}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id">
