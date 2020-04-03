@@ -40,6 +40,12 @@
 
         <Grid Grid.Column="1" Grid.Row="1" Margin="5">
             <StackPanel  Grid.RowSpan="4">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Дата создания" Margin="0,0,5,0"/>
+                    <TextBox Text="{Binding SelectedTask.CreationDate, StringFormat=dd.MM.yyyy}" Margin="0,0,5,0"/>
+                    <TextBlock Text="Срок исполнения" Margin="0,0,5,0"/>
+                    <TextBox Text="{Binding SelectedTask.DueDate, StringFormat=dd.MM.yyyy}" Margin="0,0,5,0"/>
+                </StackPanel>
                 <TextBlock Text="Название" />
                 <TextBox Name ="NameTextBox" Text="{Binding SelectedTask.Name}"
                          ToolTip="Наименование задачи. Видно всем"/>
@@ -70,6 +76,7 @@
                     <ComboBoxItem Content="Временной"/>
                     <ComboBoxItem Content="Ручной режим"/>
                 </ComboBox>
+                <TextBlock Text="Процессы" />
                 <ListView Name="ProcessesList" Margin="0,10,0,0" MinHeight="40" MaxHeight="350" ItemsSource="{Binding SelectedTask.Processes}">
                     <ListView.View>
                         <GridView>
