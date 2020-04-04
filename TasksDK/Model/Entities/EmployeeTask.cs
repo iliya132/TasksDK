@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TasksDK.Model.Entities.DTO;
 
 namespace TasksDK.Model.Entities
 {
@@ -16,6 +17,32 @@ namespace TasksDK.Model.Entities
             DueDate = DateTime.Now;
             Processes = new List<Process>();
         }
+
+        internal TaskDTO ToDTO()
+        {
+            return new TaskDTO
+            {
+                Assignee = this.Assignee,
+                AwaitedResult = this.AwaitedResult,
+                ChildTasks = this.ChildTasks.ToArray().ToString(),
+                Comment = this.Comment,
+                CreationDate = this.CreationDate,
+                DueDate = this.DueDate,
+                EmployeeComment = this.EmployeeComment,
+                EmployeeDonePercent = this.EmployeeDonePercent,
+                Meter = this.Meter,
+                Name = this.Name,
+                ParentTaskId = this.ParentTask.Id,
+                Processes = this.Processes.ToArray().ToString(),
+                Owner = this.Owner,
+                Reporter = this.Reporter,
+                SupervisorComment = this.SupervisorComment,
+                SupervisorDonePercent = this.SupervisorDonePercent,
+                Weight = this.Weight
+            };
+        }
+
+        public int Id { get; set; }
         public List<Process> Processes { get; set; }
         public string Name { get; set; }
         public EmployeeTask ParentTask { get; set; }

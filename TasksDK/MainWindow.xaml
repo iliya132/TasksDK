@@ -42,42 +42,41 @@
             <StackPanel  Grid.RowSpan="4">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Дата создания" Margin="0,0,5,0"/>
-                    <TextBox Text="{Binding SelectedTask.CreationDate, StringFormat=dd.MM.yyyy}" Margin="0,0,5,0"/>
+                    <TextBox Text="{Binding SelectedTask.CreationDate, StringFormat=dd.MM.yyyy}" Margin="0,0,5,0" IsReadOnly="True"/>
                     <TextBlock Text="Срок исполнения" Margin="0,0,5,0"/>
-                    <TextBox Text="{Binding SelectedTask.DueDate, StringFormat=dd.MM.yyyy}" Margin="0,0,5,0"/>
+                    <TextBox Text="{Binding SelectedTask.DueDate, StringFormat=dd.MM.yyyy}" Margin="0,0,5,0" IsReadOnly="True"/>
                 </StackPanel>
                 <TextBlock Text="Название" />
-                <TextBox Name ="NameTextBox" Text="{Binding SelectedTask.Name}"
+                <TextBox Name ="NameTextBox" Text="{Binding SelectedTask.Name}" IsReadOnly="True"
                          ToolTip="Наименование задачи. Видно всем"/>
 
                 <TextBlock Text="Ожидаемый результат" />
                 <TextBox Name ="AwaitedResultTextBox" TextWrapping="Wrap" 
                      Text="{Binding SelectedTask.AwaitedResult}"
-                         ToolTip="Ожидаемый результат от выполнения задачи"/>
+                         ToolTip="Ожидаемый результат от выполнения задачи"
+                         IsReadOnly="True"/>
 
                 <TextBlock Text="Ответственный" />
                 <TextBox Name ="ResponsibleManTextBox" TextWrapping="Wrap" 
                      Text="{Binding SelectedTask.Assignee.FIO}"
-                         ToolTip="Ответственный за выполнение задачи"/>
+                         ToolTip="Ответственный за выполнение задачи"
+                         IsReadOnly="True"/>
 
                 <TextBlock Text="Комментарий" />
                 <TextBox Name ="DescriptionBox" TextWrapping="WrapWithOverflow" 
                      Text="{Binding SelectedTask.Comment}"
-                         ToolTip="Подробное описание задачи"/>
+                         ToolTip="Подробное описание задачи"
+                         IsReadOnly="True"/>
 
                 <TextBlock Text="Инициатор"/>
                 <TextBox Name ="Reporter" Text="{Binding SelectedTask.Reporter.FIO}"
-                         ToolTip="Сотрудник, поставивший задачу"/>
+                         ToolTip="Сотрудник, поставивший задачу"
+                         IsReadOnly="True"/>
 
                 <TextBlock Text="Измеритель" />
-                <ComboBox Name="MeterBox" SelectedItem="{Binding SelectedTask.Meter}"
-                          ToolTip="Значение, отражающее способ измерения завершенности задачи">
-                    <ComboBoxItem Content="Количественный"/>
-                    <ComboBoxItem Content="Временной"/>
-                    <ComboBoxItem Content="Ручной режим"/>
-                </ComboBox>
+                <TextBox Text="{Binding SelectedTask.Meter}" IsReadOnly="True"/>
                 <TextBlock Text="Процессы" />
-                <ListView Name="ProcessesList" Margin="0,10,0,0" MinHeight="40" MaxHeight="350" ItemsSource="{Binding SelectedTask.Processes}">
+                <ListView Name="ProcessesList" Margin="0,10,0,0" MinHeight="40" MaxHeight="350" ItemsSource="{Binding SelectedTask.Processes}" IsEnabled="False">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Id">

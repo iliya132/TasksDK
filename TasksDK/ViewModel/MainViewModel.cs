@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using TasksDK.Interfaces;
+using TasksDK.Model;
 using TasksDK.Model.Entities;
 using TasksDK.View;
 

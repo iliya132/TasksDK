@@ -31,16 +31,16 @@ namespace TasksDK.Model.DataProviders
 
         public void GenerateTasks()
         {
-            Processes.Add(new Process() { Id = 1, Name = "Процесс1" });
-            Processes.Add(new Process() { Id = 2, Name = "Процесс2" });
-            Processes.Add(new Process() { Id = 3, Name = "Процесс3" });
-            Processes.Add(new Process() { Id = 4, Name = "Процесс4" });
-            Processes.Add(new Process() { Id = 5, Name = "Процесс5" });
-            Processes.Add(new Process() { Id = 6, Name = "Процесс6" });
-            Processes.Add(new Process() { Id = 7, Name = "Процесс7" });
-            Processes.Add(new Process() { Id = 8, Name = "Процесс8" });
-            Processes.Add(new Process() { Id = 9, Name = "Процесс9" });
-            Processes.Add(new Process() { Id = 10, Name = "Процесс10" });
+            Processes.Add(new Process() { id = 1, procName = "Процесс1" });
+            Processes.Add(new Process() { id = 2, procName = "Процесс2" });
+            Processes.Add(new Process() { id = 3, procName = "Процесс3" });
+            Processes.Add(new Process() { id = 4, procName = "Процесс4" });
+            Processes.Add(new Process() { id = 5, procName = "Процесс5" });
+            Processes.Add(new Process() { id = 6, procName = "Процесс6" });
+            Processes.Add(new Process() { id = 7, procName = "Процесс7" });
+            Processes.Add(new Process() { id = 8, procName = "Процесс8" });
+            Processes.Add(new Process() { id = 9, procName = "Процесс9" });
+            Processes.Add(new Process() { id = 10, procName = "Процесс10" });
             List<Employee> employees = _employeeContext.GetEmployees();
             Random random = new Random();
             Tasks.Add(new EmployeeTask
