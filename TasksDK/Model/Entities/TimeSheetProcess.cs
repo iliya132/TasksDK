@@ -1,4 +1,4 @@
-namespace TasksDK.Model
+namespace TasksDK.Model.Entities
 {
     using System;
     using System.Collections.Generic;
@@ -7,13 +7,12 @@ namespace TasksDK.Model
     using System.Data.Entity.Spatial;
 
     [Table("Process")]
-    public partial class Process
+    public partial class TimeSheetProcess
     {
-        [Column("id")]
-        public int Id { get; set; }
+        public int id { get; set; }
+
         [Required]
-        [Column("procName")]
-        public string Name { get; set; }
+        public string procName { get; set; }
 
         public string Comment { get; set; }
 

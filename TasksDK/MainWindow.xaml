@@ -76,7 +76,7 @@
                 <TextBlock Text="Измеритель" />
                 <TextBox Text="{Binding SelectedTask.Meter}" IsReadOnly="True"/>
                 <TextBlock Text="Процессы" />
-                <ListView Name="ProcessesList" Margin="0,10,0,0" MinHeight="40" MaxHeight="350" ItemsSource="{Binding SelectedTask.Processes}" IsEnabled="False">
+                <ListView Name="ProcessesList" Margin="0,10,0,0" MinHeight="40" MaxHeight="350" ItemsSource="{Binding SelectedProcesses}" IsEnabled="False">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Id">

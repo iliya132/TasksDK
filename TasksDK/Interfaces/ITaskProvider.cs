@@ -11,8 +11,10 @@ namespace TasksDK.Interfaces
     public interface ITaskProvider
     {
         List<EmployeeTask> GetTasks();
+        List<EmployeeTask> GetTasks(EmployeeTask parentTast);
         List<Process> GetProcesses();
         void AddTask(EmployeeTask newTask);
         void Remove(EmployeeTask task);
+        void Commit();
     }
 }

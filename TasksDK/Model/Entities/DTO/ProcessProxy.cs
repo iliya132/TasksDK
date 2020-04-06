@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace TasksDK.Model.Entities.DTO
 {
-    [Table("Employee")]
-    public class EmployeeDTO
+    [Table("ProcessProxy")]
+    public class ProcessProxy
     {
         public int Id { get; set; }
-        public string FIO { get; set; }
+        public int ProcessId { get; set; }
     }
 }

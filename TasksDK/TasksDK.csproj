@@ -154,24 +154,41 @@
     </ApplicationDefinition>
     <Compile Include="Interfaces\IEmployeeProvider.cs" />
     <Compile Include="Interfaces\ITaskProvider.cs" />
+    <Compile Include="Migrations\202004041845536_InitialCreate.cs" />
+    <Compile Include="Migrations\202004041845536_InitialCreate.designer.cs">
+      <DependentUpon>202004041845536_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004060838340_init.cs" />
+    <Compile Include="Migrations\202004060838340_init.designer.cs">
+      <DependentUpon>202004060838340_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004060840487_bugFix.cs" />
+    <Compile Include="Migrations\202004060840487_bugFix.designer.cs">
+      <DependentUpon>202004060840487_bugFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004060904233_AddedEmployees.cs" />
+    <Compile Include="Migrations\202004060904233_AddedEmployees.designer.cs">
+      <DependentUpon>202004060904233_AddedEmployees.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Analytic.cs" />
+    <Compile Include="Model\DataProviders\EFEmployeeProvider.cs" />
     <Compile Include="Model\DataProviders\EFTaskProvider.cs" />
     <Compile Include="Model\DataProviders\InMemoryEmployeeProvider.cs" />
     <Compile Include="Model\Entities\DataContext.cs" />
-    <Compile Include="Model\Entities\DTO\EmployeeDTO.cs" />
-    <Compile Include="Model\Entities\DTO\TaskDTO.cs" />
+    <Compile Include="Model\Entities\DTO\ProcessProxy.cs" />
     <Compile Include="Model\Entities\Employee.cs" />
     <Compile Include="Model\Entities\EmployeeTask.cs" />
-    <Compile Include="Model\DataProviders\InMemoryTaskProvider.cs" />
+    <Compile Include="Model\Entities\TimeSheetProcess.cs" />
+    <Compile Include="Model\Entities\TimeSheetContext.cs" />
     <Compile Include="Model\Process.cs" />
-    <Compile Include="Model\TimeSheetContext.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AddTask.xaml.cs">
       <DependentUpon>AddTask.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Controls\AddTaskControl.xaml.cs">
-      <DependentUpon>AddTaskControl.xaml</DependentUpon>
+    <Compile Include="View\Controls\HintTextBox.xaml.cs">
+      <DependentUpon>HintTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\TaskCanvas.xaml.cs">
       <DependentUpon>TaskCanvas.xaml</DependentUpon>
@@ -198,9 +215,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Controls\AddTaskControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="View\Controls\HintTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Controls\TaskCanvas.xaml">
       <SubType>Designer</SubType>
@@ -229,6 +246,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\202004041845536_InitialCreate.resx">
+      <DependentUpon>202004041845536_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004060838340_init.resx">
+      <DependentUpon>202004060838340_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004060840487_bugFix.resx">
+      <DependentUpon>202004060840487_bugFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004060904233_AddedEmployees.resx">
+      <DependentUpon>202004060904233_AddedEmployees.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

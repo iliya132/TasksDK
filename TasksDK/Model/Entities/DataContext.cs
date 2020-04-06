@@ -3,7 +3,6 @@ namespace TasksDK.Model.Entities
     using System;
     using System.Data.Entity;
     using System.Linq;
-    using TasksDK.Model.Entities.DTO;
 
     public class DataContext : DbContext
     {
@@ -18,8 +17,8 @@ namespace TasksDK.Model.Entities
         {
         }
 
-        public DbSet<TaskDTO> Tasks { get; set; }
-        public DbSet<EmployeeDTO> Employees { get; set; }
+        public DbSet<EmployeeTask> Tasks { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 
     //public class MyEntity

@@ -1,4 +1,4 @@
-namespace TasksDK.Model
+namespace TasksDK.Model.Entities
 {
     using System;
     using System.Data.Entity;
@@ -12,8 +12,8 @@ namespace TasksDK.Model
         {
         }
 
-        public virtual DbSet<Analytic> Analytic { get; set; }
-        public virtual DbSet<Process> Process { get; set; }
+        public virtual DbSet<TimeSheetProcess> Process { get; set; }
+        public virtual DbSet<Analytic> Analytics { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

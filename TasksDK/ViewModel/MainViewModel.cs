@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using TasksDK.Interfaces;
 using TasksDK.Model;
 using TasksDK.Model.Entities;
+using TasksDK.Model.Entities.DTO;
 using TasksDK.View;
 
 namespace TasksDK.ViewModel
@@ -29,6 +31,10 @@ namespace TasksDK.ViewModel
 
         private Stack<EmployeeTask> _taskStack = new Stack<EmployeeTask>();
         public Stack<EmployeeTask> TaskStack { get => _taskStack; set => _taskStack = value; }
+        private ObservableCollection<Employee> _analytics = new ObservableCollection<Employee>();
+        public ObservableCollection<Employee> Analytics { get=> _analytics; set=> _analytics=value; }
+        private ObservableCollection<string> _analytics_str = new ObservableCollection<string>();
+        public ObservableCollection<string> Analytics_str { get => _analytics_str; set => _analytics_str = value; }
 
 
         /// <summary>
@@ -38,6 +44,8 @@ namespace TasksDK.ViewModel
         public EmployeeTask NewTask { get => newTask; set => newTask = value; }
         private EmployeeTask _selectedTask;
         public EmployeeTask SelectedTask { get => _selectedTask; set => _selectedTask = value; }
+        private ObservableCollection<Process> _selectedProcesses = new ObservableCollection<Process>();
+        public ObservableCollection<Process> SelectedProcesses { get => _selectedProcesses; set => _selectedProcesses=value; }
 
         #endregion
 
@@ -84,7 +92,7 @@ namespace TasksDK.ViewModel
                 {
                     SelectedTask.ChildTasks.Add(newTask.AsCopy());
                     CurrentTasks.Add(newTask.AsCopy());
-                    _tasks.AddTask(newTask.AsCopy());
+                    _tasks.Commit();
                 }
                 newTask = new EmployeeTask();
 
@@ -97,12 +105,17 @@ namespace TasksDK.ViewModel
         private void InitializeData()
         {
             Processes = _tasks.GetProcesses();
-            _mainTask.ChildTasks = new List<EmployeeTask>(_tasks.GetTasks());
-            
+            _mainTask.ChildTasks = new List<EmployeeTask>(_tasks.GetTasks(null));
+            foreach(Employee empl in _employees.GetEmployees())
+            {
+                Analytics.Add(empl);
+                Analytics_str.Add(empl.FIO);
+            }
             _currentTask = _mainTask;
             TaskStack.Push(_mainTask);
             CurrentTasks = new ObservableCollection<EmployeeTask>(_mainTask.ChildTasks);
-            SelectedTask = _mainTask.ChildTasks[0];
+            if(_mainTask.ChildTasks.Count>0)
+                SelectedTask = _mainTask.ChildTasks[0];
         }
 
         private void InitializeCommands()
@@ -119,12 +132,15 @@ namespace TasksDK.ViewModel
 
         private void StoreProcesses(ICollection<object> obj)
         {
-            List<Process> _processes = new List<Process>();
+            List<ProcessProxy> _processes = new List<ProcessProxy>();
             foreach(object item in obj)
             {
                 if(item is Process)
                 {
-                    _processes.Add(item as Process);
+                    _processes.Add(new ProcessProxy
+                    {
+                        ProcessId=(item as Process).Id
+                    });
                 }
             }
             newTask.Processes = _processes;
@@ -159,6 +175,11 @@ namespace TasksDK.ViewModel
         {
             SelectedTask = task;
             RaisePropertyChanged("SelectedTask");
+            SelectedProcesses.Clear();
+            foreach(ProcessProxy processProxy in SelectedTask.Processes)
+            {
+                SelectedProcesses.Add(Processes.FirstOrDefault(i => i.Id == processProxy.ProcessId));
+            }
         }
 
         private void Back()

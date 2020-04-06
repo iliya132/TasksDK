@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TasksDK.View" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:local="clr-namespace:TasksDK.View" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:controls="clr-namespace:TasksDK.View.Controls"
         mc:Ignorable="d"
         Title="AddTask" MinHeight="600" MinWidth="900" Width="900" Height="600"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
@@ -48,7 +48,7 @@
         <!--Инициатор-Ответственный-Измеритель-->
         <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Margin="10,0,10,0">
             <TextBlock Text="Инициатор"/>
-            <TextBox Name ="Reporter" FontSize="16" Text="{Binding NewTask.Reporter.FIO}"/>
+            <controls:HintTextBox x:Name ="Reporter" FontSize="16" Text="{Binding NewTask.Reporter.FIO}" ItemsSource="{Binding Analytics_str, Mode=OneWay}" IgnoreTextChange="False"/>
 
             <TextBlock Text="Ответственный" Margin="0,10,0,0"/>
             <TextBox Name ="Assignee" FontSize="16" Text="{Binding NewTask.Assignee.FIO}"/>

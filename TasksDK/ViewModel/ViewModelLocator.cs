@@ -45,8 +45,8 @@ namespace TasksDK.ViewModel
             ////}
 
             SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<IEmployeeProvider, InMemoryEmployeeProvider>();
-            SimpleIoc.Default.Register<ITaskProvider, InMemoryTaskProvider>();
+            SimpleIoc.Default.Register<IEmployeeProvider, EFEmployeeProvider>();
+            SimpleIoc.Default.Register<ITaskProvider, EFTaskProvider>();
         }
 
         public MainViewModel Main
