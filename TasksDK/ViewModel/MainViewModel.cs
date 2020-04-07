@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using TasksDK.Interfaces;
@@ -76,6 +77,8 @@ namespace TasksDK.ViewModel
             AddTask addTaskWindow = new AddTask();
             if (addTaskWindow.ShowDialog() == true)
             {
+                newTask.Reporter = Analytics.FirstOrDefault(i => i.FIO.Equals(newTask.Reporter.FIO));
+                newTask.Assignee = Analytics.FirstOrDefault(i => i.FIO.Equals(newTask.Assignee.FIO));
                 _tasks.AddTask(newTask.AsCopy());
                 _currentTask.ChildTasks.Add(newTask.AsCopy());
                 CurrentTasks.Add(NewTask.AsCopy());
@@ -147,6 +150,19 @@ namespace TasksDK.ViewModel
             
         }
 
+        private void DeleteSubTasks(EmployeeTask task)
+        {
+            if (task.ChildTasks.Count > 0)
+            {
+                while(task.ChildTasks.Count>0)
+                {
+                    DeleteSubTasks(task.ChildTasks[0]);
+                }
+            }
+            CurrentTasks.Remove(task);
+            _tasks.Remove(task);
+        }
+
         private void DeleteTaskMethod(EmployeeTask task)
         {
             EmployeeTask deletedTask = null;
@@ -160,14 +176,24 @@ namespace TasksDK.ViewModel
             }
             if (deletedTask != null)
             {
-                CurrentTasks.Remove(deletedTask);
-                _tasks.Remove(deletedTask);
-                _currentTask.ChildTasks.Remove(deletedTask);
-                if (_currentTask.ChildTasks.Count < 1)
+                if(deletedTask.ChildTasks!=null && deletedTask.ChildTasks.Count > 0)
                 {
-                    Back();
+                    if(MessageBox.Show("Удаляемая задача содержит подзадачи, которые также будут удалены.\r\n Вы уверены?", "Удаление задачи", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
+                    {
+                        DeleteSubTasks(deletedTask);
+                        _currentTask.ChildTasks.Remove(deletedTask);
+                        if (_currentTask.ChildTasks.Count < 1)
+                        {
+                            Back();
+                        }
+                        UpdateTasks();
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
-                UpdateTasks();
+
             }
         }
 

@@ -41,7 +41,10 @@ namespace TasksDK.View.Controls
         {
             HintTextBox control = (HintTextBox)d;
             if (e.NewValue != null)
+            {
                 control.UserInputTextBox.Text = e.NewValue.ToString();
+                
+            }
         }
 
         private static bool TextValidate(object value)
