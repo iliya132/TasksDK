@@ -16,7 +16,12 @@ namespace TasksDK.Model.DataProviders
         List<EmployeeTask> _tasks = new List<EmployeeTask>();
         public EFTaskProvider()
         {
-            _tasks = context.Tasks.Include("Processes").ToList();
+            _tasks = context.Tasks.
+                Include("Processes").
+                Include("Reporter").
+                Include("Assignee").
+                Include("Owner").
+                ToList();
         }
         public void AddTask(EmployeeTask newTask)
         {
@@ -43,7 +48,8 @@ namespace TasksDK.Model.DataProviders
                     Name=i.procName,
                     Result_id=i.Result_id,
                     SubBlockId=i.SubBlockId
-                }).ToList(); }
+                }).ToList(); 
+        }
 
         public List<EmployeeTask> GetTasks() => _tasks;
 

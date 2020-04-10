@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using TasksDK.Model.Entities.DTO;
 
 namespace TasksDK.Model.Entities
 {
-    public class EmployeeTask
+    public class EmployeeTask: INotifyPropertyChanged
     {
         public EmployeeTask() : this(new Employee(), new Employee(), new Employee(), new List<EmployeeTask>()) { }
         public EmployeeTask(Employee owner, Employee assignee, Employee reporter, List<EmployeeTask> childTasks)
@@ -26,15 +27,50 @@ namespace TasksDK.Model.Entities
         public List<int> ProcessIds { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime DueDate { get; set; }
-        public Employee Owner { get; set; }
+        private Employee _owner = new Employee();
+        public Employee Owner 
+        {
+            get
+            {
+                return _owner;
+            }
+            set
+            {
+                _owner = value;
+                OnPropertyChanged(nameof(Owner));
+            }
+        }
         public Employee Assignee { get; set; }
         public Employee Reporter { get; set; }
         public string Comment { get; set; }
         public int Weight { get; set; }
-        public string EmployeeComment { get; set; }
-        public string SupervisorComment { get; set; }
+        private string _employeeComment = string.Empty;
+        public string EmployeeComment
+        {
+            get => _employeeComment;
+            set
+            {
+                _employeeComment = value;
+                OnPropertyChanged(nameof(EmployeeComment));
+            }
+        }
+        private string _reporterCommend = string.Empty;
+        public string SupervisorComment { get => _reporterCommend;
+            set
+            {
+                _reporterCommend = value;
+                OnPropertyChanged(nameof(SupervisorComment));
+            }
+        }
         public int EmployeeDonePercent { get; set; }
         private int _supervisorDonePercent = 0;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string Property)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(Property));
+        }
+
         public int SupervisorDonePercent
         {
             get
@@ -116,6 +152,32 @@ namespace TasksDK.Model.Entities
                 return this.Name.Equals(comparableTask.Name) ? true : false;
             }
             else return false;
+        }
+
+        public override int GetHashCode()
+        {
+            var hash = new HashCode();
+            hash.Add(Id);
+            hash.Add(Processes);
+            hash.Add(Name);
+            hash.Add(ParentTask);
+            hash.Add(ChildTasks);
+            hash.Add(ProcessIds);
+            hash.Add(CreationDate);
+            hash.Add(DueDate);
+            hash.Add(Owner);
+            hash.Add(Assignee);
+            hash.Add(Reporter);
+            hash.Add(Comment);
+            hash.Add(Weight);
+            hash.Add(EmployeeComment);
+            hash.Add(SupervisorComment);
+            hash.Add(EmployeeDonePercent);
+            hash.Add(_supervisorDonePercent);
+            hash.Add(SupervisorDonePercent);
+            hash.Add(AwaitedResult);
+            hash.Add(Meter);
+            return hash.ToHashCode();
         }
     }
 }

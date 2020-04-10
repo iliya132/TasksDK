@@ -75,7 +75,7 @@ namespace TasksDK.View.Controls
             UserInputTextBox.PreviewKeyDown += KeyDownMethod;
             InputCacheComboBox.PreviewKeyDown += KeyDownComboBoxMethod;
             InputCacheComboBox.SelectionChanged += SelectionChangedMethod;
-            UserInputTextBox.MouseEnter += UserInputTextBox_GotFocus;
+            UserInputTextBox.MouseDown += UserInputTextBox_GotFocus;
             InputCacheComboBox.DropDownClosed += InputCacheDropDownClosed;
             InputCacheComboBox.ItemsSource = suggestList;
         }

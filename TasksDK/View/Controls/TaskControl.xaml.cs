@@ -64,6 +64,7 @@ namespace TasksDK.View.Controls
             menu1.CommandParameter = Task;
             MoreMenuItem.CommandParameter = Task;
             DeleteMenuItem.CommandParameter = Task;
+            AddResult.CommandParameter = Task;
 
         }
         public TaskControl() : this(new EmployeeTask())

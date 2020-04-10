@@ -9,7 +9,7 @@
         Title="MainWindow" MinHeight="800" MinWidth="850"
         Background="#FFF7F7F7" ResizeMode="CanResizeWithGrip"
         Name="CurrentWindow"
-        >
+        Loaded="CurrentWindow_Loaded">
     <Grid DataContext="{Binding Main, Source={StaticResource Locator}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -19,9 +19,11 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-
+        <Button VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="1" Width="30" Height="30" Click="Help_Button_Click">
+            <Image Source="Res\img\help.png"/>
+        </Button>
         <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
-            <Button Width="40" Height="40" Command="{Binding AddNewTaskCommand}" Margin="5,0,5,0" ToolTip="Добавить новую задачу в текущее представление">
+            <Button Width="40" Height="40" Command="{Binding AddNewTaskCommand}" Margin="10,0,5,0" ToolTip="Добавить новую задачу в текущее представление">
                 <Image Source="Res/img/AddNode.png"/>
             </Button>
             <Button  Height="40" Command="{Binding AddNewSubTaskCommand}" Margin="5,0,5,0" ToolTip="Добавить подзадачу в выделенную задачу">
@@ -31,12 +33,19 @@
                 <Image Source="Res/img/UpArrow.png"/>
             </Button>
         </StackPanel>
-
-        <controls:TaskCanvas x:Name="tasksCanvas"
-                             
-            ItemsSource ="{Binding Main.CurrentTasks, Source={StaticResource Locator}, Mode=OneWay}"
-            Grid.Row="1">
-        </controls:TaskCanvas>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="20*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="10,0,0,0">
+                <Button Content="Все задачи" Margin="0,0,3,0" Command="{Binding FilterTasks_All}"/>
+                <Button Content="Мои задачи" Margin="0,0,3,0" Command="{Binding FilterTasks_My}"/>
+            </StackPanel>
+                <controls:TaskCanvas x:Name="tasksCanvas" Grid.Row="1"
+                    ItemsSource ="{Binding Main.CurrentTasks, Source={StaticResource Locator}, Mode=OneWay}">
+                </controls:TaskCanvas>
+        </Grid>
 
         <Grid Grid.Column="1" Grid.Row="1" Margin="5">
             <StackPanel  Grid.RowSpan="4">
@@ -56,13 +65,7 @@
                          ToolTip="Ожидаемый результат от выполнения задачи"
                          IsReadOnly="True"/>
 
-                <TextBlock Text="Ответственный" />
-                <TextBox Name ="ResponsibleManTextBox" TextWrapping="Wrap" 
-                     Text="{Binding SelectedTask.Assignee.FIO}"
-                         ToolTip="Ответственный за выполнение задачи"
-                         IsReadOnly="True"/>
-
-                <TextBlock Text="Комментарий" />
+                <TextBlock Text="Описание" />
                 <TextBox Name ="DescriptionBox" TextWrapping="WrapWithOverflow" 
                      Text="{Binding SelectedTask.Comment}"
                          ToolTip="Подробное описание задачи"
@@ -72,11 +75,24 @@
                 <TextBox Name ="Reporter" Text="{Binding SelectedTask.Reporter.FIO}"
                          ToolTip="Сотрудник, поставивший задачу"
                          IsReadOnly="True"/>
-
+                
+                <TextBlock Text="Ответственный" />
+                <TextBox Name ="ResponsibleManTextBox" TextWrapping="Wrap" 
+                     Text="{Binding SelectedTask.Assignee.FIO}"
+                         ToolTip="Ответственный за выполнение задачи"
+                         IsReadOnly="True"/>
+                
                 <TextBlock Text="Измеритель" />
                 <TextBox Text="{Binding SelectedTask.Meter}" IsReadOnly="True"/>
-                <TextBlock Text="Процессы" />
-                <ListView Name="ProcessesList" Margin="0,10,0,0" MinHeight="40" MaxHeight="350" ItemsSource="{Binding SelectedProcesses}" IsEnabled="False">
+
+                <TextBlock Text="Комментарий инициатора" />
+                <TextBox Text="{Binding SelectedTask.SupervisorComment}" IsReadOnly="True" TextWrapping="WrapWithOverflow"/>
+
+                <TextBlock Text="Комментарий исполнителя" />
+                <TextBox Text="{Binding SelectedTask.EmployeeComment}" IsReadOnly="True" TextWrapping="WrapWithOverflow"/>
+
+                <TextBlock Text="Процессы" Margin="0,10,0,0"/>
+                <ListView Name="ProcessesList"  MinHeight="40" MaxHeight="350" ItemsSource="{Binding SelectedProcesses}" IsEnabled="False">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Id">
@@ -86,7 +102,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="Name">
+                            <GridViewColumn Header="Name" Width="500">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Name}"/>

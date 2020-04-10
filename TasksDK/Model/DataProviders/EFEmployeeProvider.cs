@@ -12,6 +12,12 @@ namespace TasksDK.Model.DataProviders
     {
         TimeSheetContext _context = new TimeSheetContext();
 
+        public Analytic GetCurrentAnalytic()
+        {
+            string _userId = Environment.UserName.ToUpper();
+            return _context.Analytics.FirstOrDefault(i => i.userName.ToUpper().Equals(_userId));
+        }
+
         public List<Employee> GetEmployees()
         {
             List<Employee> _employees = new List<Employee>();

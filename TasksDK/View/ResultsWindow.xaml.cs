@@ -15,13 +15,19 @@ using System.Windows.Shapes;
 namespace TasksDK.View
 {
     /// <summary>
-    /// Interaction logic for TaskView.xaml
+    /// Interaction logic for ResultsWindow.xaml
     /// </summary>
-    public partial class TaskView : Window
+    public partial class ResultsWindow : Window
     {
-        public TaskView()
+        public ResultsWindow()
         {
             InitializeComponent();
+        }
+
+        private void OK_Button_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+            Close();
         }
     }
 }

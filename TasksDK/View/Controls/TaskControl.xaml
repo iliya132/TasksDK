@@ -22,6 +22,7 @@
             <Grid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Name="menu1" Header="Посмотреть подзадачи" Command="{Binding Source={StaticResource Locator}, Path=Main.SelectParentCommand}"/>
+                    <MenuItem Name="AddResult" Header="Указать достижения" Command="{Binding Source={StaticResource Locator}, Path=Main.AddResult}"/>
                     <MenuItem Name="MoreMenuItem" Header="Редактировать" Command="{Binding Source={StaticResource Locator}, Path=Main.ViewTaskCommand}"/>
                     <MenuItem Name="DeleteMenuItem" Header="Удалить" Command="{Binding Source={StaticResource Locator}, Path=Main.DeleteTask}"/>
                 </ContextMenu>

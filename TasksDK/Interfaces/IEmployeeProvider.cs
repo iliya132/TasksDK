@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TasksDK.Model;
 using TasksDK.Model.Entities;
 
 namespace TasksDK.Interfaces
@@ -10,5 +11,6 @@ namespace TasksDK.Interfaces
     public interface IEmployeeProvider
     {
         List<Employee> GetEmployees();
+        Analytic GetCurrentAnalytic();
     }
 }
