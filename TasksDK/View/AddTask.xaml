@@ -4,13 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TasksDK.View" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:controls="clr-namespace:TasksDK.View.Controls"
+        xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
-        Title="AddTask" MinHeight="600" MinWidth="900" Width="900" Height="600"
+        Title="AddTask" MinHeight="600" MinWidth="1300" Width="1300" Height="600"
+        Name="AddTaskWindow"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="114*"/>
@@ -44,10 +47,7 @@
             
             <TextBox Name="DonePercentField" FontSize="16" Text="{Binding NewTask.SupervisorDonePercent}"/>
             <TextBlock Text="Инициатор"/>
-            <controls:HintTextBox x:Name ="Reporter" FontSize="16" Text="{Binding NewTask.Reporter.FIO, Mode=TwoWay}" ItemsSource="{Binding Analytics_str, Mode=OneWay}" IgnoreTextChange="False"/>
-
-            <TextBlock Text="Ответственный" Margin="0,10,0,0"/>
-            <controls:HintTextBox x:Name ="Assignee" FontSize="16" Text="{Binding NewTask.Assignee.FIO, Mode=TwoWay}" ItemsSource="{Binding Analytics_str, Mode=OneWay}" IgnoreTextChange="False"/>
+            <controls:HintTextBox x:Name ="Reporter" FontSize="16" Text="{Binding EditedOwnerFIO, Mode=TwoWay}" ItemsSource="{Binding Analytics_str, Mode=OneWay}" IgnoreTextChange="False"/>
 
             <TextBlock Text="Измеритель" Margin="0,10,0,0"/>
             <TextBox Name="MeterBox" FontSize="16" Text="{Binding NewTask.Meter}" TextWrapping="WrapWithOverflow"/>
@@ -63,7 +63,79 @@
                 
             </xctk:CheckComboBox>
         </StackPanel>
+        
+        <Grid Grid.Column="2" Grid.RowSpan="4" Margin="5" MaxHeight="{Binding ElementName=AddTaskWindow, Path=ActualHeight}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="15*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Ответственные сотрудники" Grid.Row="0" FontSize="16"/>
+            <TreeView x:Name="treeView1" ItemsSource="{Binding NodesCollection}" Grid.Row="1" AlternationCount="1" OverridesDefaultStyle="True" Margin="0,0,5,5">
+            <TreeView.Style>
+                <Style TargetType="{x:Type TreeView}">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                    <Setter Property="VerticalContentAlignment" Value="Top"/>
+                    <Setter Property="BorderBrush" Value="#817F7F"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Padding" Value="4"/>
+                    <Setter Property="Cursor" Value="Arrow"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type TreeView}">
+                                <Grid UseLayoutRounding="True" d:DesignUseLayoutRounding="True">
+                                    <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2" UseLayoutRounding="True" d:DesignUseLayoutRounding="True">
+                                        <ScrollViewer CanContentScroll="False" Focusable="False" HorizontalScrollBarVisibility="Disabled" Padding="4" UseLayoutRounding="True" VerticalScrollBarVisibility="Auto" d:DesignUseLayoutRounding="True">
+                                            <ItemsPresenter UseLayoutRounding="True" d:DesignUseLayoutRounding="True"/>
+                                        </ScrollViewer>
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TreeView.Style>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=Nodes}">
+                    <StackPanel>
+                        <TextBlock  Width="1500" FontWeight="ExtraBold" UseLayoutRounding="False"  Height="20"><!--Visibility="{Binding invertedContainsAnalytic}"-->
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <CheckBox IsChecked="{Binding IsSelected}" />
+                                                        <TextBlock Text="{Binding StructureName}"/>
+                                                        <TextBlock Text="{Binding Path=ChildCount, StringFormat=. Сотрудников: {0}}"/>
+                                                    </StackPanel>
 
+                                                </TextBlock>
+                        <StackPanel Orientation="Vertical" Visibility="{Binding ContainsAnalytic}">
+                            <DataGrid ItemsSource="{Binding Path=Analytics}" AutoGenerateColumns="False" HeadersVisibility="None" AlternationCount="1" GridLinesVisibility="None">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding Selected}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Checked">
+                                                            <mvvm:EventToCommand Command="{Binding Main.SelectAnalytic, Source={StaticResource Locator}}" CommandParameter="{Binding}"/>
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="Unchecked">
+                                                            <mvvm:EventToCommand Command="{Binding Main.UnselectAnalytic, Source={StaticResource Locator}}" CommandParameter="{Binding}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </CheckBox>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Binding="{Binding FIO}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        </Grid>
         <!--Инициатор-Ответственный-Измеритель-->
 
 

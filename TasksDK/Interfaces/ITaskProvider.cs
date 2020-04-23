@@ -14,6 +14,7 @@ namespace TasksDK.Interfaces
         List<EmployeeTask> GetTasks(EmployeeTask parentTast);
         List<Process> GetProcesses();
         void AddTask(EmployeeTask newTask);
+        void AddTask(List<EmployeeTask> newTasks);
         void Remove(EmployeeTask task);
         void Commit();
     }

@@ -22,8 +22,11 @@
             <Grid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Name="menu1" Header="Посмотреть подзадачи" Command="{Binding Source={StaticResource Locator}, Path=Main.SelectParentCommand}"/>
-                    <MenuItem Name="AddResult" Header="Указать достижения" Command="{Binding Source={StaticResource Locator}, Path=Main.AddResult}"/>
-                    <MenuItem Name="MoreMenuItem" Header="Редактировать" Command="{Binding Source={StaticResource Locator}, Path=Main.ViewTaskCommand}"/>
+                    <MenuItem Name="AddResult" Header="Указать статус исполнения" Command="{Binding Source={StaticResource Locator}, Path=Main.AddResult}"/>
+                    <MenuItem Name="MoreMenuItem" Header="Редактировать" Command="{Binding Source={StaticResource Locator}, Path=Main.EditTaskCommand}"/>
+                    <MenuItem Name="CopyMenuItem" Header="Копировать" Command="{Binding Source={StaticResource Locator}, Path=Main.CopyTaskCommand}"/>
+                    <MenuItem Name="CutMenuItem" Header="Вырезать" Command="{Binding Source={StaticResource Locator}, Path=Main.CutTaskCommand}"/>
+                    <MenuItem Name="PasteMenuItem" Header="Вставить" Command="{Binding Source={StaticResource Locator}, Path=Main.PasteAsChildTaskCommand}"/>
                     <MenuItem Name="DeleteMenuItem" Header="Удалить" Command="{Binding Source={StaticResource Locator}, Path=Main.DeleteTask}"/>
                 </ContextMenu>
             </Grid.ContextMenu>

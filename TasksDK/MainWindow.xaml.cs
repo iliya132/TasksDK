@@ -25,6 +25,11 @@ namespace TasksDK
         public MainWindow()
         {
             InitializeComponent();
+            if (File.Exists("updated.txt"))
+            {
+                File.Delete("updated.txt");
+                Help_Button_Click(null, null);
+            }
         }
 
         private void CurrentWindow_Loaded(object sender, RoutedEventArgs e)

@@ -10,6 +10,11 @@
              
             >
     <Grid Name="mainGrid" HorizontalAlignment="Center" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=ActualWidth}">
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Name="Paste" Header="Вставить" Command="{Binding Source={StaticResource Locator}, Path=Main.PasteTask}"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
         <!--<Grid.Effect>
             <DropShadowEffect/>
         </Grid.Effect>-->

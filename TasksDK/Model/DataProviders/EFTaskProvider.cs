@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,8 +28,16 @@ namespace TasksDK.Model.DataProviders
         {
             _tasks.Add(newTask);
             context.Tasks.Add(newTask);
-            context.SaveChanges();
+            
         }
+
+        public void AddTask(List<EmployeeTask>newTasks)
+        {
+            _tasks.AddRange(newTasks);
+            context.Tasks.AddRange(newTasks);
+
+        }
+
 
         public void Commit()
         {

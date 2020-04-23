@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using TasksDK.Model;
 using TasksDK.Model.Entities;
 
@@ -12,5 +9,6 @@ namespace TasksDK.Interfaces
     {
         List<Employee> GetEmployees();
         Analytic GetCurrentAnalytic();
+        ObservableCollection<Analytic> GetMyAnalyticsData(Analytic currentUser);
     }
 }

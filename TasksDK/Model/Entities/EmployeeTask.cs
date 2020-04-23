@@ -99,12 +99,21 @@ namespace TasksDK.Model.Entities
 
         public EmployeeTask AsCopy()
         {
+            List<ProcessProxy> procProxies = new List<ProcessProxy>();
+            foreach (ProcessProxy proxy in this.Processes)
+            {
+                procProxies.Add(new ProcessProxy
+                {
+                    Id = proxy.Id,
+                    ProcessId = proxy.ProcessId
+                });
+            };
+
             return new EmployeeTask
             {
                 Name = this.Name,
                 Assignee = this.Assignee,
                 AwaitedResult = this.AwaitedResult,
-                ChildTasks = this.ChildTasks,
                 Comment = this.Comment,
                 CreationDate = this.CreationDate,
                 DueDate = this.DueDate,
@@ -118,8 +127,8 @@ namespace TasksDK.Model.Entities
                 SupervisorComment = this.SupervisorComment,
                 SupervisorDonePercent = this.SupervisorDonePercent,
                 Weight = this.Weight,
-                Processes = this.Processes
-                
+                Processes = procProxies
+
             };
         }
         public void CopyFields(EmployeeTask task)

@@ -20,11 +20,33 @@ namespace TasksDK.ViewModel
         private ITaskProvider _tasks;
 
         #region currentValues
+        private EmployeeTask _copiedTask;
+        private bool isCut = false;
         /// <summary>
         /// Текущие задачи. Загрузка из ITaskProvider.
         /// </summary>
         private ObservableCollection<EmployeeTask> _currentTasks = new ObservableCollection<EmployeeTask>();
         public ObservableCollection<EmployeeTask> CurrentTasks { get => _currentTasks; set => _currentTasks = value; }
+        /// <summary>
+        /// Древо подчиненных аналитиков
+        /// </summary>
+        private ObservableCollection<Node> nodes = new ObservableCollection<Node>();
+        public ObservableCollection<Node> NodesCollection { get => nodes; set => nodes = value; }
+        private ObservableCollection<Analytic> _subordinateEmployees = new ObservableCollection<Analytic>();
+        public ObservableCollection<Analytic> SubordinateEmployees
+        {
+            get { return _subordinateEmployees; }
+            set { _subordinateEmployees = value; }
+        }
+        private ObservableCollection<AnalyticOrdered> subordinatedOrdered = new ObservableCollection<AnalyticOrdered>();
+        public ObservableCollection<AnalyticOrdered> SubordinatedOrdered
+        {
+            get { return subordinatedOrdered; }
+            set { subordinatedOrdered = value; }
+        }
+        private ObservableCollection<Analytic> _selectedAnalytics = new ObservableCollection<Analytic>();
+        public ObservableCollection<Analytic> SelectedAnalytics { get => _selectedAnalytics; set => _selectedAnalytics = value; }
+
         EmployeeTask _mainTask = new EmployeeTask();
         EmployeeTask _currentTask = new EmployeeTask();
         private List<Process> _processes;
@@ -38,6 +60,9 @@ namespace TasksDK.ViewModel
         public ObservableCollection<string> Analytics_str { get => _analytics_str; set => _analytics_str = value; }
         private Analytic _currentAnalytic;
         private Employee _currentEmployee;
+
+        public string EditedAssigneeFIO { get; set; }
+        public string EditedOwnerFIO { get; set; }
 
         /// <summary>
         /// Новая задача. Привязка из окна AddTask
@@ -56,13 +81,20 @@ namespace TasksDK.ViewModel
         public RelayCommand AddNewSubTaskCommand { get; set; }
         public RelayCommand BackCommand { get; set; }
         public RelayCommand FilterTasks_My { get; set; }
+        public RelayCommand FilterTasks_AssignedOnMe { get; set; }
         public RelayCommand FilterTasks_All { get; set; }
-        public RelayCommand<EmployeeTask> ViewTaskCommand { get; set; }
+        public RelayCommand<EmployeeTask> EditTaskCommand { get; set; }
+        public RelayCommand<EmployeeTask> CutTaskCommand { get; set; }
+        public RelayCommand<EmployeeTask> CopyTaskCommand { get; set; }
+        public RelayCommand<EmployeeTask> PasteAsChildTaskCommand { get; set; }
+        public RelayCommand PasteTask { get; set; }
         public RelayCommand<EmployeeTask> DeleteTask { get; set; }
         public RelayCommand<EmployeeTask> SelectParentCommand { get; set; }
         public RelayCommand<EmployeeTask> AddResult { get; set; }
         public RelayCommand<EmployeeTask> SelectTaskCommand { get; set; }
         public RelayCommand<ICollection<object>> StoreProcessSelection { get; set; }
+        public RelayCommand<AnalyticOrdered> SelectAnalytic { get; set; }
+        public RelayCommand<AnalyticOrdered> UnselectAnalytic { get; set; }
 
         #endregion
 
@@ -76,41 +108,185 @@ namespace TasksDK.ViewModel
             InitializeCommands();
         }
 
+        private void AddTaskMethod()
+        {
+            List<ProcessProxy> procProxies = new List<ProcessProxy>();
+            foreach (ProcessProxy proxy in newTask.Processes)
+            {
+                procProxies.Add(new ProcessProxy
+                {
+                    Id = proxy.Id,
+                    ProcessId = proxy.ProcessId
+                });
+            }
+
+            EmployeeTask addMainTask = new EmployeeTask
+            {
+                Assignee = newTask.Assignee,
+                Weight = newTask.Weight,
+                SupervisorDonePercent = newTask.SupervisorDonePercent,
+                SupervisorComment = newTask.SupervisorComment,
+                AwaitedResult = newTask.AwaitedResult,
+                Comment = newTask.Comment,
+                CreationDate = newTask.CreationDate,
+                DueDate = newTask.DueDate,
+                EmployeeComment = newTask.EmployeeComment,
+                EmployeeDonePercent = newTask.EmployeeDonePercent,
+                Meter = newTask.Meter,
+                Name = newTask.Name,
+                Processes = procProxies,
+                Owner = newTask.Owner,
+                ParentTask = newTask.ParentTask,
+                Reporter = newTask.Reporter
+            };
+            addMainTask.ChildTasks = new List<EmployeeTask>();
+
+            foreach (Analytic analytic in SelectedAnalytics)
+            {
+                string analyticFIO = $"{analytic.LastName} {analytic.FirstName} {analytic.FatherName}";
+                newTask.Assignee = Analytics.FirstOrDefault(i => i.FIO.Equals(analyticFIO));
+
+                List<ProcessProxy> procProxies2 = new List<ProcessProxy>();
+                foreach (ProcessProxy proxy in newTask.Processes)
+                {
+                    procProxies2.Add(new ProcessProxy
+                    {
+                        Id = proxy.Id,
+                        ProcessId = proxy.ProcessId
+                    });
+                }
+
+                addMainTask.ChildTasks.Add(new EmployeeTask
+                {
+                    Assignee = newTask.Assignee,
+                    Weight = newTask.Weight,
+                    SupervisorDonePercent = newTask.SupervisorDonePercent,
+                    SupervisorComment = newTask.SupervisorComment,
+                    AwaitedResult = newTask.AwaitedResult,
+                    Comment = newTask.Comment,
+                    CreationDate = newTask.CreationDate,
+                    DueDate = newTask.DueDate,
+                    EmployeeComment = newTask.EmployeeComment,
+                    EmployeeDonePercent = newTask.EmployeeDonePercent,
+                    Meter = newTask.Meter,
+                    Name = newTask.Name,
+                    Processes = procProxies2,
+                    Owner = newTask.Owner,
+                    ParentTask = newTask.ParentTask,
+                    Reporter = newTask.Reporter
+                });
+            }
+            if (addMainTask.ChildTasks.Count == 1)
+            {
+                _tasks.AddTask(addMainTask.ChildTasks[0]);
+                _currentTask.ChildTasks.Add(addMainTask.ChildTasks[0]);
+                CurrentTasks.Add(addMainTask.ChildTasks[0]);
+            }
+            _tasks.AddTask(addMainTask);
+            _currentTask.ChildTasks.Add(addMainTask);
+            CurrentTasks.Add(addMainTask);
+            _tasks.Commit();
+        }
+
         private void AddNewTask()
         {
             AddTask addTaskWindow = new AddTask();
-            newTask.Owner = _currentEmployee;
+
+            EditedOwnerFIO = _currentEmployee.FIO;
             addTaskWindow.Reporter.IgnoreTextChange = true;
-            addTaskWindow.Reporter.Text = _currentEmployee.FIO;
+            addTaskWindow.Reporter.Text = EditedOwnerFIO;
             addTaskWindow.Reporter.IgnoreTextChange = false;
+            newTask.Owner = newTask.Reporter = Analytics.FirstOrDefault(i => i.FIO.Equals(EditedOwnerFIO));
             if (addTaskWindow.ShowDialog() == true)
             {
-                Console.WriteLine(newTask.Owner.FIO);
-                newTask.Reporter = Analytics.FirstOrDefault(i => i.FIO.Equals(newTask.Reporter.FIO));
-                newTask.Assignee = Analytics.FirstOrDefault(i => i.FIO.Equals(newTask.Assignee.FIO));
-                newTask.Owner = Analytics.FirstOrDefault(i => i.FIO.Equals(newTask.Reporter.FIO));
-                _tasks.AddTask(newTask.AsCopy());
-                _currentTask.ChildTasks.Add(newTask.AsCopy());
-                CurrentTasks.Add(NewTask.AsCopy());
+                AddTaskMethod();
             }
             newTask = new EmployeeTask();
         }
 
         private void AddSubTask()
         {
-            newTask.Owner = _currentEmployee;
 
             if (SelectedTask != null)
             {
                 AddTask addTaskWindow = new AddTask();
-                newTask.Owner = _currentEmployee;
+                EditedOwnerFIO = _currentEmployee.FIO;
+                newTask.Owner = newTask.Reporter = Analytics.FirstOrDefault(i => i.FIO.Equals(EditedOwnerFIO));
                 addTaskWindow.Reporter.IgnoreTextChange = true;
                 addTaskWindow.Reporter.Text = _currentEmployee.FIO;
                 addTaskWindow.Reporter.IgnoreTextChange = false;
                 if (addTaskWindow.ShowDialog() == true)
                 {
-                    SelectedTask.ChildTasks.Add(newTask.AsCopy());
-                    CurrentTasks.Add(newTask.AsCopy());
+                    List<ProcessProxy> procProxies = new List<ProcessProxy>();
+                    foreach (ProcessProxy proxy in newTask.Processes)
+                    {
+                        procProxies.Add(new ProcessProxy
+                        {
+                            Id = proxy.Id,
+                            ProcessId = proxy.ProcessId
+                        });
+                    }
+
+                    EmployeeTask addMainTask = new EmployeeTask
+                    {
+                        Assignee = newTask.Assignee,
+                        Weight = newTask.Weight,
+                        SupervisorDonePercent = newTask.SupervisorDonePercent,
+                        SupervisorComment = newTask.SupervisorComment,
+                        AwaitedResult = newTask.AwaitedResult,
+                        Comment = newTask.Comment,
+                        CreationDate = newTask.CreationDate,
+                        DueDate = newTask.DueDate,
+                        EmployeeComment = newTask.EmployeeComment,
+                        EmployeeDonePercent = newTask.EmployeeDonePercent,
+                        Meter = newTask.Meter,
+                        Name = newTask.Name,
+                        Processes = procProxies,
+                        Owner = newTask.Owner,
+                        ParentTask = newTask.ParentTask,
+                        Reporter = newTask.Reporter
+                    };
+                    addMainTask.ChildTasks = new List<EmployeeTask>();
+
+                    foreach (Analytic analytic in SelectedAnalytics)
+                    {
+                        string analyticFIO = $"{analytic.LastName} {analytic.FirstName} {analytic.FatherName}";
+                        newTask.Assignee = Analytics.FirstOrDefault(i => i.FIO.Equals(analyticFIO));
+
+                        List<ProcessProxy> procProxies2 = new List<ProcessProxy>();
+                        foreach (ProcessProxy proxy in newTask.Processes)
+                        {
+                            procProxies2.Add(new ProcessProxy
+                            {
+                                Id = proxy.Id,
+                                ProcessId = proxy.ProcessId
+                            });
+                        }
+
+                        addMainTask.ChildTasks.Add(new EmployeeTask
+                        {
+                            Assignee = newTask.Assignee,
+                            Weight = newTask.Weight,
+                            SupervisorDonePercent = newTask.SupervisorDonePercent,
+                            SupervisorComment = newTask.SupervisorComment,
+                            AwaitedResult = newTask.AwaitedResult,
+                            Comment = newTask.Comment,
+                            CreationDate = newTask.CreationDate,
+                            DueDate = newTask.DueDate,
+                            EmployeeComment = newTask.EmployeeComment,
+                            EmployeeDonePercent = newTask.EmployeeDonePercent,
+                            Meter = newTask.Meter,
+                            Name = newTask.Name,
+                            Processes = procProxies2,
+                            Owner = newTask.Owner,
+                            ParentTask = newTask.ParentTask,
+                            Reporter = newTask.Reporter
+                        });
+
+                    }
+                    _tasks.AddTask(addMainTask);
+                    SelectedTask.ChildTasks.Add(addMainTask);
+                    CurrentTasks.Add(addMainTask);
                     _tasks.Commit();
                 }
                 newTask = new EmployeeTask();
@@ -141,21 +317,108 @@ namespace TasksDK.ViewModel
             CurrentTasks = new ObservableCollection<EmployeeTask>(_mainTask.ChildTasks);
             if (_mainTask.ChildTasks.Count > 0)
                 SelectedTask = _mainTask.ChildTasks[0];
+            SubordinateEmployees = _employees.GetMyAnalyticsData(_currentAnalytic);
+            SubordinatedOrdered = GetAnalyticOrdereds(SubordinateEmployees);
+            GenerateNodes();
+        }
+
+        private ObservableCollection<AnalyticOrdered> GetAnalyticOrdereds(IEnumerable<Analytic> analytics)
+        {
+            ObservableCollection<AnalyticOrdered> exportVal = new ObservableCollection<AnalyticOrdered>();
+            foreach (Analytic analytic in analytics)
+            {
+                AnalyticOrdered ordered = new AnalyticOrdered(analytic);
+                ordered.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Ordered_PropertyChanged);
+                exportVal.Add(ordered);
+            }
+            return exportVal;
+        }
+
+        private void Ordered_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("Selected"))
+            {
+                ReportSelectionUpdate();
+            }
+        }
+
+        private void ReportSelectionUpdate()
+        {
+            SelectedAnalytics.Clear();
+            foreach (AnalyticOrdered analytic in SubordinatedOrdered)
+            {
+                if (analytic.Selected)
+                {
+                    SelectedAnalytics.Add(analytic.Analytic);
+                }
+            }
         }
 
         private void InitializeCommands()
         {
             AddNewTaskCommand = new RelayCommand(AddNewTask);
             AddNewSubTaskCommand = new RelayCommand(AddSubTask);
-            ViewTaskCommand = new RelayCommand<EmployeeTask>(EditTask);
+            EditTaskCommand = new RelayCommand<EmployeeTask>(EditTask);
+            CutTaskCommand = new RelayCommand<EmployeeTask>(CutTask);
+            CopyTaskCommand = new RelayCommand<EmployeeTask>(CopyTask);
+            PasteTask = new RelayCommand(PasteTaskMethod);
+            PasteAsChildTaskCommand = new RelayCommand<EmployeeTask>(PasteAsChildTask);
             SelectParentCommand = new RelayCommand<EmployeeTask>(SelectParent);
             BackCommand = new RelayCommand(Back);
             SelectTaskCommand = new RelayCommand<EmployeeTask>(SelectTask);
             DeleteTask = new RelayCommand<EmployeeTask>(DeleteTaskMethod);
             StoreProcessSelection = new RelayCommand<ICollection<object>>(StoreProcesses);
             FilterTasks_My = new RelayCommand(ShowMyTasks);
+            FilterTasks_AssignedOnMe = new RelayCommand(ShowTasksWhereIAssigned);
             FilterTasks_All = new RelayCommand(ShowAllTAsks);
             AddResult = new RelayCommand<EmployeeTask>(AddResultMethod);
+            SelectAnalytic = new RelayCommand<AnalyticOrdered>(SelectAnalyticMethod);
+            UnselectAnalytic = new RelayCommand<AnalyticOrdered>(UnselectAnalyticMethod);
+        }
+
+        private void PasteTaskMethod() => PasteAsChildTask(_currentTask);
+
+        private void PasteAsChildTask(EmployeeTask obj)
+        {
+            if (_copiedTask != null)
+            {
+                if (isCut)
+                {
+                    _copiedTask.ParentTask = obj;
+                }
+                else
+                { 
+                    EmployeeTask _task = _copiedTask.AsCopy();
+                    _task.ParentTask = obj;
+                    obj.ChildTasks.Add(_task);
+                }
+                _tasks.Commit();
+                UpdateTasks();
+            }
+
+        }
+
+        private void CopyTask(EmployeeTask obj)
+        {
+            isCut = false;
+            _copiedTask = obj;
+        }
+
+        private void CutTask(EmployeeTask obj)
+        {
+            isCut = true;
+            _copiedTask = obj;
+        }
+
+        private void SelectAnalyticMethod(AnalyticOrdered analytic)
+        {
+            analytic.Selected = true;
+            ReportSelectionUpdate();
+        }
+        private void UnselectAnalyticMethod(AnalyticOrdered analytic)
+        {
+            analytic.Selected = false;
+            ReportSelectionUpdate();
         }
 
         private void AddResultMethod(EmployeeTask task)
@@ -176,7 +439,7 @@ namespace TasksDK.ViewModel
                 return;
             }
 
-            if(participationIndex==1 && !string.IsNullOrEmpty(task.SupervisorComment))
+            if (participationIndex == 1 && !string.IsNullOrEmpty(task.SupervisorComment))
             {
                 dialog.CommentBox.Text = task.SupervisorComment;
             }
@@ -190,7 +453,7 @@ namespace TasksDK.ViewModel
                 if (participationIndex == 1)
                 {
                     task.SupervisorComment = dialog.CommentBox.Text;
-                    
+
                 }
                 else
                 {
@@ -205,7 +468,36 @@ namespace TasksDK.ViewModel
         {
             _mainTask = new EmployeeTask();
             string fio = $"{_currentAnalytic.LastName} {_currentAnalytic.FirstName} {_currentAnalytic.FatherName}";
-            _mainTask.ChildTasks = new List<EmployeeTask>(_tasks.GetTasks().Where(i => i.Assignee.FIO != null && i.Assignee.FIO.Equals(fio) || i.Owner.FIO != null && i.Assignee.FIO.Equals(fio)));
+            List<EmployeeTask> myTasks = new List<EmployeeTask>(_tasks.GetTasks().Where(i => i.Reporter.FIO != null && i.Reporter.FIO.Equals(fio)));
+            for (int i = 0; i < myTasks.Count; i++)
+            {
+                if(myTasks[i].ParentTask!=null && myTasks[i].ParentTask.Reporter.FIO.Equals(fio))
+                {
+                    myTasks.Remove(myTasks[i--]);
+                }
+            }
+            _mainTask.ChildTasks = myTasks;
+            _currentTask = _mainTask;
+            TaskStack.Clear();
+            TaskStack.Push(_mainTask);
+            if (_mainTask.ChildTasks.Count > 0)
+                SelectedTask = _mainTask.ChildTasks[0];
+            UpdateTasks();
+        }
+
+        private void ShowTasksWhereIAssigned()
+        {
+            _mainTask = new EmployeeTask();
+            string fio = $"{_currentAnalytic.LastName} {_currentAnalytic.FirstName} {_currentAnalytic.FatherName}";
+            List<EmployeeTask> myTasks = new List<EmployeeTask>(_tasks.GetTasks().Where(i => i.Assignee.FIO != null && i.Assignee.FIO.Equals(fio)));
+            for (int i = 0; i < myTasks.Count; i++)
+            {
+                if (myTasks[i].ParentTask != null && myTasks[i].ParentTask.Reporter.FIO.Equals(fio))
+                {
+                    myTasks.Remove(myTasks[i--]);
+                }
+            }
+            _mainTask.ChildTasks = myTasks;
             _currentTask = _mainTask;
             TaskStack.Clear();
             TaskStack.Push(_mainTask);
@@ -339,19 +631,114 @@ namespace TasksDK.ViewModel
             }
         }
 
+        private void GenerateNodes()
+        {
+
+            foreach (AnalyticOrdered analytic in SubordinatedOrdered)
+            {
+                #region initialize
+
+                if (NodesCollection.Count < 1)
+                    NodesCollection.Add(new Node(analytic.FirstStructure));
+
+                #endregion
+
+                #region Generate Ierarhial
+                foreach (Node node in NodesCollection)
+                {
+
+                    #region 1stGen
+
+                    if (string.IsNullOrEmpty(analytic.FirstStructure)) break;
+                    Node firstGen = Node.FindNode(analytic.FirstStructure, NodesCollection);
+                    if (firstGen == null)
+                    {
+                        firstGen = new Node(analytic.FirstStructure);
+                        NodesCollection.Add(firstGen);
+                    }
+
+                    #endregion
+
+                    #region 2ndGen
+
+                    if (string.IsNullOrEmpty(analytic.SecondStructure))
+                    {
+                        firstGen.Analytics.Add(analytic);
+                        break;
+                    }
+
+                    Node secondGen = Node.FindNode(analytic.SecondStructure, NodesCollection);
+                    if (secondGen == null)
+                    {
+                        firstGen.AddChild(new Node(analytic.SecondStructure));
+                        secondGen = Node.FindNode(analytic.SecondStructure, NodesCollection);
+                    }
+
+                    #endregion
+
+                    #region 3ndGen
+
+                    if (string.IsNullOrEmpty(analytic.ThirdStructure))
+                    {
+                        secondGen.Analytics.Add(analytic);
+                        break;
+                    }
+
+                    Node thirdGen = Node.FindNode(analytic.ThirdStructure, NodesCollection);
+                    if (thirdGen == null)
+                    {
+                        secondGen.AddChild(new Node(analytic.ThirdStructure));
+                        thirdGen = Node.FindNode(analytic.ThirdStructure, NodesCollection);
+                    }
+
+                    #endregion
+
+                    #region 4thGen
+
+                    if (string.IsNullOrEmpty(analytic.FourStructure))
+                    {
+                        thirdGen.Analytics.Add(analytic);
+                        break;
+                    }
+
+                    Node fourGen = Node.FindNode(analytic.FourStructure, NodesCollection);
+                    if (fourGen == null)
+                    {
+                        thirdGen.AddChild(new Node(analytic.FourStructure));
+                        fourGen = Node.FindNode(analytic.FourStructure, NodesCollection);
+                    }
+                    fourGen.Analytics.Add(analytic);
+                    #endregion
+
+
+                }
+                #endregion
+
+
+            }
+            foreach (Node node1 in NodesCollection)
+            {
+                node1.CountAnalytics(node1);
+            }
+        }
+
         private void EditTask(EmployeeTask task)
         {
             EmployeeTask tempTask = task.AsCopy();
             newTask = task;
+            EditedOwnerFIO = newTask.Owner.FIO;
+            EditedAssigneeFIO = newTask.Assignee.FIO;
             AddTask addTaskWindow = new AddTask();
-            
-            addTaskWindow.ProcessList.SelectedItemsOverride = SelectedTask.Processes.Select(i=>Processes.FirstOrDefault(n=>n.Id==i.ProcessId)).ToList();
+
+            addTaskWindow.ProcessList.SelectedItemsOverride = SelectedTask.Processes.Select(i => Processes.FirstOrDefault(n => n.Id == i.ProcessId)).ToList();
             if (addTaskWindow.ShowDialog() == false)
             {
                 task.CopyFields(tempTask);
             }
             else
             {
+                DeleteTaskMethod(task);
+                AddTaskMethod();
                 _tasks.Commit();
                 UpdateTasks();
             }

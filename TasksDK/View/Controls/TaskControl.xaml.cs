@@ -64,6 +64,9 @@ namespace TasksDK.View.Controls
             menu1.CommandParameter = Task;
             MoreMenuItem.CommandParameter = Task;
             DeleteMenuItem.CommandParameter = Task;
+            CopyMenuItem.CommandParameter = Task;
+            CutMenuItem.CommandParameter = Task;
+            PasteMenuItem.CommandParameter = Task;
             AddResult.CommandParameter = Task;
 
         }

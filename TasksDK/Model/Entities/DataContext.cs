@@ -20,10 +20,4 @@ namespace TasksDK.Model.Entities
         public DbSet<EmployeeTask> Tasks { get; set; }
         public DbSet<Employee> Employees { get; set; }
     }
-
-    //public class MyEntity
-    //{
-    //    public int Id { get; set; }
-    //    public string Name { get; set; }
-    //}
 }

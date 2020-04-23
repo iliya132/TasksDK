@@ -67,21 +67,13 @@ namespace TasksDK.View
                 ErrorMessage += "Не указан инициатор задачи.\r\n";
                 _isValid = false;
             }
-            if (string.IsNullOrWhiteSpace(Assignee.Text))
-            {
-                ErrorMessage += "Не указан ответственный по задаче.\r\n";
-                _isValid = false;
-            }
+
             if (!Reporter.ItemsSource.Any(i => i.Equals(Reporter.Text)))
             {
                 ErrorMessage += "Указанный исполнитель отсутствует в БД. Пожалуйста выберите сотрудника из выпадающего списка.\r\n";
                 _isValid = false;
             }
-            if (!Assignee.ItemsSource.Any(i => i.Equals(Assignee.Text)))
-            {
-                ErrorMessage += "Указанный ответственный сотрудник отсутствует в БД. Пожалуйста выберите сотрудника из выпадающего списка.\r\n";
-                _isValid = false;
-            }
+
             if (string.IsNullOrWhiteSpace(MeterBox.Text))
             {
                 ErrorMessage += "Не указан измеритель.\r\n";
